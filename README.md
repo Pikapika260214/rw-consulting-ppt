@@ -51,12 +51,6 @@ cp -R ./rw-consulting-ppt-skill ~/.codex/skills/rw-consulting-ppt
 输出格式：PNG + image-only PPTX
 ```
 
-## 交流与答疑
-
-如果你下载并使用这个 skill，欢迎扫码加入微信群一起讨论 AI x Consulting 工作流、PPT 生成效果和使用问题。二维码可能会过期，过期后可以通过 GitHub issue 提醒更新。
-
-![AI X Consulting 讨论群二维码](assets/wechat-group-qr.jpg)
-
 ## 适合什么场景？
 
 ### 1. 行业报告分析 PPT
@@ -90,25 +84,61 @@ cp -R ./rw-consulting-ppt-skill ~/.codex/skills/rw-consulting-ppt
 
 从行业研究材料生成 6 页管理层判断 deck，重点展示需求成立条件、留存逻辑、玩家格局、价值链迁移、信任风险和赢家逻辑。
 
-- [AI 陪伴玩具 6 页总览图](examples/ai-companion-toys-management-deck/contact_sheet.png)
+下面是单页高清 PNG 预览。点击图片可以打开原图。
 
-![AI 陪伴玩具管理层汇报总览](examples/ai-companion-toys-management-deck/contact_sheet.png)
+<p>
+  <a href="examples/ai-companion-toys-management-deck/slide_01.png"><img src="examples/ai-companion-toys-management-deck/slide_01.png" alt="AI 陪伴玩具 slide 01"></a>
+</p>
 
-![需求判断页](examples/ai-companion-toys-management-deck/slide_01.png)
+<p>
+  <a href="examples/ai-companion-toys-management-deck/slide_02.png"><img src="examples/ai-companion-toys-management-deck/slide_02.png" alt="AI 陪伴玩具 slide 02"></a>
+</p>
 
-![赢家逻辑页](examples/ai-companion-toys-management-deck/slide_06.png)
+<p>
+  <a href="examples/ai-companion-toys-management-deck/slide_03.png"><img src="examples/ai-companion-toys-management-deck/slide_03.png" alt="AI 陪伴玩具 slide 03"></a>
+</p>
+
+<p>
+  <a href="examples/ai-companion-toys-management-deck/slide_04.png"><img src="examples/ai-companion-toys-management-deck/slide_04.png" alt="AI 陪伴玩具 slide 04"></a>
+</p>
+
+<p>
+  <a href="examples/ai-companion-toys-management-deck/slide_05.png"><img src="examples/ai-companion-toys-management-deck/slide_05.png" alt="AI 陪伴玩具 slide 05"></a>
+</p>
+
+<p>
+  <a href="examples/ai-companion-toys-management-deck/slide_06.png"><img src="examples/ai-companion-toys-management-deck/slide_06.png" alt="AI 陪伴玩具 slide 06"></a>
+</p>
 
 ### 示例 2：AI 眼镜行业研究
 
 从半成品行业判断生成 6 页咨询页，重点展示需求验证、入口路线分化、价格带、真实需求矩阵、Google Glass 风险桥和未来赢家能力栈。
 
-- [AI 眼镜 6 页总览图](examples/ai-glasses-market-deck/contact_sheet.png)
+下面是单页高清 PNG 预览。点击图片可以打开原图。
 
-![AI 眼镜行业研究总览](examples/ai-glasses-market-deck/contact_sheet.png)
+<p>
+  <a href="examples/ai-glasses-market-deck/page-01-demand-funnel.png"><img src="examples/ai-glasses-market-deck/page-01-demand-funnel.png" alt="AI 眼镜 page 01 demand funnel"></a>
+</p>
 
-![AI 眼镜需求漏斗页](examples/ai-glasses-market-deck/page-01-demand-funnel.png)
+<p>
+  <a href="examples/ai-glasses-market-deck/page-02-route-map.png"><img src="examples/ai-glasses-market-deck/page-02-route-map.png" alt="AI 眼镜 page 02 route map"></a>
+</p>
 
-![AI 眼镜赢家能力栈页](examples/ai-glasses-market-deck/page-06-capability-stack.png)
+<p>
+  <a href="examples/ai-glasses-market-deck/page-03-price-ladder.png"><img src="examples/ai-glasses-market-deck/page-03-price-ladder.png" alt="AI 眼镜 page 03 price ladder"></a>
+</p>
+
+<p>
+  <a href="examples/ai-glasses-market-deck/page-04-demand-matrix.png"><img src="examples/ai-glasses-market-deck/page-04-demand-matrix.png" alt="AI 眼镜 page 04 demand matrix"></a>
+</p>
+
+<p>
+  <a href="examples/ai-glasses-market-deck/page-05-risk-bridge.png"><img src="examples/ai-glasses-market-deck/page-05-risk-bridge.png" alt="AI 眼镜 page 05 risk bridge"></a>
+</p>
+
+<p>
+  <a href="examples/ai-glasses-market-deck/page-06-capability-stack.png"><img src="examples/ai-glasses-market-deck/page-06-capability-stack.png" alt="AI 眼镜 page 06 capability stack"></a>
+</p>
 
 ## 它不是普通 PPT 模板
 
@@ -348,3 +378,11 @@ rw-consulting-ppt-skill/
 ### 可以用于英文 deck 吗？
 
 可以，但默认示例和质量规则以中文管理层报告页为主。英文 deck 也应保留相同原则：alignment-first、storyline before design、proof-object-first。
+
+## 交流与答疑
+
+如果你下载并使用这个 skill，欢迎扫码加入微信群一起讨论 AI x Consulting 工作流、PPT 生成效果和使用问题。二维码可能会过期，过期后可以通过 GitHub issue 提醒更新。
+
+<p>
+  <img src="assets/wechat-group-qr.jpg" alt="AI X Consulting 讨论群二维码" width="320">
+</p>
