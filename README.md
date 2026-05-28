@@ -51,6 +51,12 @@ cp -R ./rw-consulting-ppt-skill ~/.codex/skills/rw-consulting-ppt
 输出格式：PNG + image-only PPTX
 ```
 
+## 交流与答疑
+
+如果你下载并使用这个 skill，欢迎扫码加入微信群一起讨论 AI x Consulting 工作流、PPT 生成效果和使用问题。二维码可能会过期，过期后可以通过 GitHub issue 提醒更新。
+
+![AI X Consulting 讨论群二维码](assets/wechat-group-qr.jpg)
+
 ## 适合什么场景？
 
 ### 1. 行业报告分析 PPT
