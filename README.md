@@ -8,6 +8,26 @@
 
 > From rough business inputs to proof-object-first consulting slides.
 
+## 效果展示
+
+下面是两个 6 页 deck 的高清 3×2 overview。点击图片可以打开原图查看细节。
+
+### 示例 1：AI 陪伴玩具行业判断
+
+从行业研究材料生成 6 页管理层判断 deck，重点展示需求成立条件、留存逻辑、玩家格局、价值链迁移、信任风险和赢家逻辑。
+
+<p>
+  <a href="examples/ai-companion-toys-management-deck/overview-3x2.png"><img src="examples/ai-companion-toys-management-deck/overview-3x2.png" alt="AI 陪伴玩具 6 页高清 overview"></a>
+</p>
+
+### 示例 2：AI 眼镜行业研究
+
+从半成品行业判断生成 6 页咨询页，重点展示需求验证、入口路线分化、价格带、真实需求矩阵、Google Glass 风险桥和未来赢家能力栈。
+
+<p>
+  <a href="examples/ai-glasses-market-deck/overview-3x2.png"><img src="examples/ai-glasses-market-deck/overview-3x2.png" alt="AI 眼镜 6 页高清 overview"></a>
+</p>
+
 ## 它解决什么问题？
 
 很多 PPT 难做，不是因为不会排版，而是因为输入材料本身还很粗糙：
@@ -77,68 +97,6 @@ cp -R ./rw-consulting-ppt-skill ~/.codex/skills/rw-consulting-ppt
 - 仍然有分歧或需要确认的问题；
 - 下一次讨论前需要补齐的证据；
 - 面向管理层或客户的简洁 recap 页面。
-
-## 效果示例
-
-### 示例 1：AI 陪伴玩具行业判断
-
-从行业研究材料生成 6 页管理层判断 deck，重点展示需求成立条件、留存逻辑、玩家格局、价值链迁移、信任风险和赢家逻辑。
-
-下面是单页高清 PNG 预览。点击图片可以打开原图。
-
-<p>
-  <a href="examples/ai-companion-toys-management-deck/slide_01.png"><img src="examples/ai-companion-toys-management-deck/slide_01.png" alt="AI 陪伴玩具 slide 01"></a>
-</p>
-
-<p>
-  <a href="examples/ai-companion-toys-management-deck/slide_02.png"><img src="examples/ai-companion-toys-management-deck/slide_02.png" alt="AI 陪伴玩具 slide 02"></a>
-</p>
-
-<p>
-  <a href="examples/ai-companion-toys-management-deck/slide_03.png"><img src="examples/ai-companion-toys-management-deck/slide_03.png" alt="AI 陪伴玩具 slide 03"></a>
-</p>
-
-<p>
-  <a href="examples/ai-companion-toys-management-deck/slide_04.png"><img src="examples/ai-companion-toys-management-deck/slide_04.png" alt="AI 陪伴玩具 slide 04"></a>
-</p>
-
-<p>
-  <a href="examples/ai-companion-toys-management-deck/slide_05.png"><img src="examples/ai-companion-toys-management-deck/slide_05.png" alt="AI 陪伴玩具 slide 05"></a>
-</p>
-
-<p>
-  <a href="examples/ai-companion-toys-management-deck/slide_06.png"><img src="examples/ai-companion-toys-management-deck/slide_06.png" alt="AI 陪伴玩具 slide 06"></a>
-</p>
-
-### 示例 2：AI 眼镜行业研究
-
-从半成品行业判断生成 6 页咨询页，重点展示需求验证、入口路线分化、价格带、真实需求矩阵、Google Glass 风险桥和未来赢家能力栈。
-
-下面是单页高清 PNG 预览。点击图片可以打开原图。
-
-<p>
-  <a href="examples/ai-glasses-market-deck/page-01-demand-funnel.png"><img src="examples/ai-glasses-market-deck/page-01-demand-funnel.png" alt="AI 眼镜 page 01 demand funnel"></a>
-</p>
-
-<p>
-  <a href="examples/ai-glasses-market-deck/page-02-route-map.png"><img src="examples/ai-glasses-market-deck/page-02-route-map.png" alt="AI 眼镜 page 02 route map"></a>
-</p>
-
-<p>
-  <a href="examples/ai-glasses-market-deck/page-03-price-ladder.png"><img src="examples/ai-glasses-market-deck/page-03-price-ladder.png" alt="AI 眼镜 page 03 price ladder"></a>
-</p>
-
-<p>
-  <a href="examples/ai-glasses-market-deck/page-04-demand-matrix.png"><img src="examples/ai-glasses-market-deck/page-04-demand-matrix.png" alt="AI 眼镜 page 04 demand matrix"></a>
-</p>
-
-<p>
-  <a href="examples/ai-glasses-market-deck/page-05-risk-bridge.png"><img src="examples/ai-glasses-market-deck/page-05-risk-bridge.png" alt="AI 眼镜 page 05 risk bridge"></a>
-</p>
-
-<p>
-  <a href="examples/ai-glasses-market-deck/page-06-capability-stack.png"><img src="examples/ai-glasses-market-deck/page-06-capability-stack.png" alt="AI 眼镜 page 06 capability stack"></a>
-</p>
 
 ## 它不是普通 PPT 模板
 
