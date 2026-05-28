@@ -1,0 +1,15 @@
+__pycache__/
+*.py[cod]
+*$py.class
+
+.DS_Store
+Thumbs.db
+desktop.ini
+
+*.tmp
+*.log
+
+# Keep the public repository lightweight. Full generated decks and raw source
+# documents should live in releases or private archives, not the main repo.
+*.pptx
+*.docx

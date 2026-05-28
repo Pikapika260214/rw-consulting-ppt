@@ -1,0 +1,7 @@
+interface:
+  display_name: "RW Consulting PPT"
+  short_description: "Image-only consulting deck with concept-image and hierarchy governance"
+  default_prompt: "Use $rw-consulting-ppt. First ask me to confirm audience/use case, delivery mode, page count, detail level, theme color/style, and PNG-only vs PNG+image-only PPTX. After preference alignment, show Inputs for PPT Production and get my approval on core question, working thesis, storyline, page list, and sample page choice before any prompts or sample images. Then show the sample page brief with visual mode, proof object, visual mother concept, must-keep text, message hierarchy, and what will be left out to avoid clutter. Only after approval, run the built-in Concept Image Director pass, apply the Style Master and Message Hierarchy locks, and generate 1-2 Image2-style full-slide PNG samples. Reject samples with multiple conclusion zones, detached large metrics, generic dashboard feel, or source notes competing with takeaways. Do not use Python/HTML/CSS/SVG/canvas to render slides."
+
+policy:
+  allow_implicit_invocation: true
