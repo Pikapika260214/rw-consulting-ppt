@@ -1,10 +1,13 @@
-# RW Consulting PPT Skill
+# RW Consulting PPT Skills
 
-一个面向粗糙业务材料的 AI 咨询 PPT 工作流。
+这个仓库包含两个互相独立的 Codex Skills：
 
-把行业报告、会议纪要、访谈笔记和半成品 bullet，转成 `proof-object-first` 的图片版咨询 PPT：先对齐目标，再梳理 `storyline`，再确认样页，最后交付 PNG + `image-only PPTX`。
+- `rw-consulting-ppt`：把行业报告、会议纪要、访谈笔记和半成品 bullet，转成 `proof-object-first` 的图片版咨询 PPT。
+- `ppt-to-editable`：把单张 slide 图片、PNG/JPG 或截图转换成单页可编辑 PPTX。
 
-![RW Consulting PPT 工作流](assets/readme-hero.png)
+两者平级放在 `skills/` 目录下，需要分别安装、分别触发，互不覆盖。`rw-consulting-ppt` 默认交付 PNG + `image-only PPTX`；如果少数关键页面需要后续编辑，可以再用 `ppt-to-editable` 逐页转换。
+
+![RW Consulting PPT 工作流](skills/rw-consulting-ppt/assets/readme-hero.png)
 
 > From rough business inputs to proof-object-first consulting slides.
 
@@ -17,7 +20,7 @@
 从行业研究材料生成 6 页管理层判断 deck，重点展示需求成立条件、留存逻辑、玩家格局、价值链迁移、信任风险和赢家逻辑。
 
 <p>
-  <a href="examples/ai-companion-toys-management-deck/overview-3x2.png"><img src="examples/ai-companion-toys-management-deck/overview-3x2.png" alt="AI 陪伴玩具 6 页高清 overview"></a>
+  <a href="skills/rw-consulting-ppt/examples/ai-companion-toys-management-deck/overview-3x2.png"><img src="skills/rw-consulting-ppt/examples/ai-companion-toys-management-deck/overview-3x2.png" alt="AI 陪伴玩具 6 页高清 overview"></a>
 </p>
 
 ### 示例 2：AI 眼镜行业研究
@@ -25,7 +28,7 @@
 从半成品行业判断生成 6 页咨询页，重点展示需求验证、入口路线分化、价格带、真实需求矩阵、Google Glass 风险桥和未来赢家能力栈。
 
 <p>
-  <a href="examples/ai-glasses-market-deck/overview-3x2.png"><img src="examples/ai-glasses-market-deck/overview-3x2.png" alt="AI 眼镜 6 页高清 overview"></a>
+  <a href="skills/rw-consulting-ppt/examples/ai-glasses-market-deck/overview-3x2.png"><img src="skills/rw-consulting-ppt/examples/ai-glasses-market-deck/overview-3x2.png" alt="AI 眼镜 6 页高清 overview"></a>
 </p>
 
 ## 它解决什么问题？
@@ -40,26 +43,32 @@
 RW Consulting PPT Skill 的重点不是“美化 PPT”，而是把粗糙材料先变成可交付的咨询表达：
 
 ```text
-粗糙材料 -> 目标对齐 -> storyline -> 页面 brief -> 样页确认 -> PNG / image-only PPTX
+粗糙材料 -> 目标对齐 -> storyline -> 页面 brief -> 样页确认 -> PNG / image-only PPTX -> 可选关键页 editable conversion
 ```
 
 ## 30 秒开始
 
-把这个目录放到你的 Codex skills 目录里：
+把需要的 skill 目录放到你的 Codex skills 目录里。两个 skill 是平级目录，需要分别安装，互不覆盖。
 
 ```powershell
 # Windows PowerShell
 New-Item -ItemType Directory -Force "$env:USERPROFILE\.codex\skills" | Out-Null
-Copy-Item -Recurse -Force .\rw-consulting-ppt-skill "$env:USERPROFILE\.codex\skills\rw-consulting-ppt"
+New-Item -ItemType Directory -Force "$env:USERPROFILE\.codex\skills\rw-consulting-ppt" | Out-Null
+New-Item -ItemType Directory -Force "$env:USERPROFILE\.codex\skills\ppt-to-editable" | Out-Null
+Copy-Item -Recurse -Force .\skills\rw-consulting-ppt\* "$env:USERPROFILE\.codex\skills\rw-consulting-ppt"
+Copy-Item -Recurse -Force .\skills\ppt-to-editable\* "$env:USERPROFILE\.codex\skills\ppt-to-editable"
 ```
 
 ```bash
 # macOS / Linux
-mkdir -p ~/.codex/skills
-cp -R ./rw-consulting-ppt-skill ~/.codex/skills/rw-consulting-ppt
+mkdir -p ~/.codex/skills/rw-consulting-ppt ~/.codex/skills/ppt-to-editable
+cp -R ./skills/rw-consulting-ppt/. ~/.codex/skills/rw-consulting-ppt/
+cp -R ./skills/ppt-to-editable/. ~/.codex/skills/ppt-to-editable/
 ```
 
 然后在 Codex 里这样触发：
+
+生成图片版咨询 deck：
 
 ```text
 请使用 rw-consulting-ppt，把这些行业研究材料整理成 6 页中文管理层汇报。
@@ -69,6 +78,18 @@ cp -R ./rw-consulting-ppt-skill ~/.codex/skills/rw-consulting-ppt
 信息密度：标准咨询密度
 视觉风格：管理层报告风，白底，深绿作为强调色
 输出格式：PNG + image-only PPTX
+```
+
+转换单张图片为 editable PPTX：
+
+```text
+请使用 ppt-to-editable，把这张单页 slide 图片转换成单页可编辑 PPTX。
+
+输入：我上传的 PNG / JPG / 截图图片
+目标：尽量恢复可编辑文字和简单原生形状，同时保持原图版式
+路线：先 OCR 和 OCR review，再判断 clean-background、hybrid 或 reconstruction
+约束：不要做可见文字覆盖；不要额外添加 PowerPoint 阴影、发光、浮雕、反射等效果
+交付：editable PPTX + editability_report.json
 ```
 
 ## 适合什么场景？
@@ -108,20 +129,49 @@ cp -R ./rw-consulting-ppt-skill ~/.codex/skills/rw-consulting-ppt
 - 用 `proof object` 承载每页论证，比如漏斗、路径图、玩家格局、能力栈、风险桥；
 - 先生成 1-2 页样页，让你确认风格、密度和表达逻辑；
 - 在样页通过后，再批量生成完整 deck；
-- 如果需要 PPTX，则把每张 PNG 打包成 `image-only PPTX`。
+- 如果需要 PPTX，则把每张 PNG 打包成 `image-only PPTX`；
+- 如果少数关键页面需要后续编辑，可再用 `ppt-to-editable` 逐页转换成单页 editable PPTX。
 
-它不会做：
+`rw-consulting-ppt` 本身不会直接做：
 
-- editable PPTX 的文本框、图表、SmartArt 或形状；
-- HTML / CSS / React 页面截图；
+- 从粗糙材料一步生成整套全页、全对象原生可编辑 PPTX；
+- 用 HTML / CSS / React 截图伪装成 PPT 页面；
 - Python / Pillow / SVG / canvas 绘制的伪 PPT；
 - 普通模板套壳或三栏卡片堆叠。
 
-如果你需要可编辑 PowerPoint，请使用别的 workflow。这个 skill 的定位是：先把复杂业务材料变成咨询级图片页。
+如果你已经有一张成品 slide 图片，并希望恢复部分编辑能力，可以使用同仓库的 `ppt-to-editable`。两个 skill 的分工是：`rw-consulting-ppt` 先把复杂业务材料变成咨询级图片页；`ppt-to-editable` 再对选中的单张图片页做可编辑化转换。
+
+## 同仓库的另一个 Skill：ppt-to-editable
+
+`ppt-to-editable` 当前支持：将单张图片输入转换为单页可编辑 PPTX。
+
+它适合已经有一张成品 slide 图片，但希望恢复一部分可编辑能力的场景。当前公开稳定能力聚焦在“单张图片输入”，而不是限制图片来源：
+
+- 单页 PNG slide；
+- 单张截图导出的 PNG / JPG；
+- 其他单张 16:9 slide image。
+
+当前输出是一页 editable PPTX，核心能力包括：
+
+- OCR 辅助文字恢复；
+- `clean-background + editable text`；
+- 对结构简单的页面，可使用 `hybrid / reconstruction` 重建部分原生对象；
+- 输出 `editability_report.json`，用于验证文字框、原生形状、图片裁剪等结构；
+- 默认不额外添加 PowerPoint 阴影、发光、浮雕、反射等效果，除非原图明确需要复刻。
+
+它不是从材料生成 deck 的工具，也不承诺任意图片都能全对象原生重建。当前重点不是限制图片来源，而是限制输入粒度：只承诺单张图片到单页 editable PPTX；多页 PDF、PPTX 或 deck 需要先拆成单张图片后逐页处理。
+
+以下能力目前不作为公开稳定能力承诺：
+
+- PDF 多页自动拆页输入；
+- image-only PPTX 自动拆页输入；
+- 多页 deck 自动路由与组装；
+- 批量页面一致性处理；
+- 任意页面的 fully native all-object reconstruction。
 
 ## 工作流
 
-![RW Consulting PPT 对话式工作流图解](assets/workflow-dialogue.png)
+![RW Consulting PPT 对话式工作流图解](skills/rw-consulting-ppt/assets/workflow-dialogue.png)
 
 ### 1. Preference alignment
 
@@ -132,7 +182,7 @@ cp -R ./rw-consulting-ppt-skill ~/.codex/skills/rw-consulting-ppt
 - 页数或图片数；
 - 信息密度：简洁、标准、密集；
 - 视觉风格 / 主题色；
-- 输出格式：PNG，或 PNG + `image-only PPTX`。
+- 输出格式：PNG、PNG + `image-only PPTX`，或是否需要少数关键页 editable conversion。
 
 ### 2. Inputs for PPT Production
 
@@ -179,11 +229,17 @@ cp -R ./rw-consulting-ppt-skill ~/.codex/skills/rw-consulting-ppt
 
 ### 6. Batch generation and packaging
 
-样页确认后，才批量生成剩余页面。最后可以用 `scripts/package_image_deck.py` 把 PNG 打包成 `image-only PPTX`。
+样页确认后，才批量生成剩余页面。最后可以用 `skills/rw-consulting-ppt/scripts/package_image_deck.py` 把 PNG 打包成 `image-only PPTX`。
+
+### 7. Selective editable conversion
+
+如果某些页面需要后续频繁改字、改数字、改标签、改表格，可以从最终 PNG 中选取少数关键页面，交给 `ppt-to-editable` 逐页转换成单页 editable PPTX。
+
+这一步是可选的关键页转换，不是整套 deck 自动全量可编辑化。每张图片仍按 `ppt-to-editable` 的稳定能力独立处理：单张图片输入，输出单页 editable PPTX，并附带 `editability_report.json` 说明可编辑文本、原生形状、原生表格、图片裁剪和限制。
 
 ## 输出物
 
-一个标准输出通常包含：
+默认图片版输出通常包含：
 
 ```text
 slides/
@@ -195,7 +251,18 @@ deck-name-image-only.pptx
 run_notes.md
 ```
 
-PPTX 里的每一页只有一张完整图片，不包含可编辑文本对象。
+默认的 `deck-name-image-only.pptx` 里，每一页只有一张完整图片，不包含可编辑文本对象。
+
+如果启用了关键页可编辑化，还会额外交付类似：
+
+```text
+editable-pages/
+  slide_02-editable.pptx
+  slide_02-editability_report.json
+  slide_02-preview.png
+```
+
+这些 editable PPTX 只覆盖被选中的单页图片。实际可编辑范围以对应的 `editability_report.json` 为准。
 
 ## 质量护栏
 
@@ -248,18 +315,20 @@ PPTX 里的每一页只有一张完整图片，不包含可编辑文本对象。
 - 行业分析、市场判断、玩家格局、机会评估；
 - 客户会议、老板 brainstorm、项目 catch-up 的 recap deck；
 - 需要从粗糙材料中提炼 `storyline` 的 PPT；
-- 需要图片版咨询页，而不是可编辑 PPT 模板；
+- 需要高质量图片版咨询页，并可选对少数关键页做后续可编辑化；
 - 需要先看样页、再批量生成的工作流。
 
 不适合：
 
-- 必须逐字可编辑的 PowerPoint；
+- 需要整套 deck 全页、全对象原生可编辑，且不接受图片页或逐页转换；
 - 大量数据表格的精确排版；
 - 企业模板规范非常严格的内部汇报；
 - 只需要一页视觉海报，不需要咨询论证；
 - 已经有完整 PPT，只想简单换皮美化。
 
 ## 示例 prompt
+
+### 图片版咨询 deck
 
 ### 行业报告分析 PPT
 
@@ -291,39 +360,73 @@ PPTX 里的每一页只有一张完整图片，不包含可编辑文本对象。
 不要直接生成图片，先给我 deck blueprint。
 ```
 
+### 单张 slide 图片转 editable PPTX
+
+```text
+请使用 ppt-to-editable，把我上传的这张单页 slide 图片转换成单页 editable PPTX。
+
+当前输入：单张 PNG / JPG / 截图图片
+优先目标：让标题、正文、标签、数字等主要文字可编辑
+版式目标：尽量贴近原图，不要把原图文字留在背景下再叠一层可编辑文字
+处理路线：请先 OCR，保存 OCR 结果和 review；如果页面结构由卡片、表格、行列、流程、图标容器或简单线条组成，优先考虑 hybrid / reconstruction；复杂图片、照片、纹理或细节图标可以保留为紧裁剪图片
+样式约束：默认使用扁平 PowerPoint 对象，不要额外添加阴影、发光、浮雕、反射、柔边或主题效果，除非原图明确有这个效果
+交付物：单页 editable PPTX、预览图、editability_report.json，并说明哪些元素可编辑、哪些元素仍是图片裁剪
+```
+
+### 结构化页面优先 reconstruction
+
+```text
+请使用 ppt-to-editable，把这张结构化业务 slide 图片转换成单页 editable PPTX。
+
+这页主要由表格、卡片、分隔线、标签和数字组成，请优先走 hybrid / reconstruction，而不是只做 clean-background + editable text。
+
+要求：
+- 文字尽量变成可编辑文本框；
+- 表格或明显行列结构尽量重建为原生 PowerPoint table；
+- 简单矩形、圆形、线条、分隔线尽量重建为原生 PowerPoint shape / line；
+- 图标、照片、复杂纹理可以用紧裁剪图片保留；
+- 不要使用整页背景伪装 reconstruction；
+- 不要添加原图没有的阴影或 PowerPoint 特效；
+- 输出 editability_report.json 证明 editable text、native shapes、native tables、source crops 的数量和限制。
+```
+
 ## 目录结构
 
 ```text
-rw-consulting-ppt-skill/
-  SKILL.md
+rw-consulting-ppt/
   README.md
-  agents/
-  examples/
-    ai-glasses-market-deck/
-    ai-companion-toys-management-deck/
-  references/
-    concept-image-director.md
-    consulting-image-context.md
-    deck-consistency-lock.md
-    example-lessons.md
-    image-only-output-contract.md
-    message-hierarchy-rules.md
-    message-proof-mapping.md
-    sample-rejection-rubric.md
-    visual-style-master.md
-  scripts/
-    package_image_deck.py
+  LICENSE
+  skills/
+    rw-consulting-ppt/
+      SKILL.md
+      agents/
+      assets/
+      examples/
+      references/
+      scripts/
+    ppt-to-editable/
+      SKILL.md
+      agents/
+      references/
+      scripts/
 ```
 
 ## FAQ
 
-### 为什么不是 editable PPTX？
+### 为什么默认不是 editable PPTX？
 
-因为这个 skill 的核心不是做可编辑组件，而是让 AI 生成完整的咨询页图像。可编辑 PPTX 更适合结构稳定、内容精确、模板明确的场景；这个 workflow 更适合把粗糙业务材料转成高质量视觉表达。
+因为 `rw-consulting-ppt` 的核心不是从材料直接生成原生 PPT 组件，而是让 AI 先生成完整的咨询页图像。它优先保证咨询页的视觉完整度、信息密度和表达质量。
+
+如果你已经有一张成品图片，并希望恢复部分编辑能力，可以使用同仓库的 `ppt-to-editable`。目前 `ppt-to-editable` 聚焦单张图片到单页 editable PPTX，不承诺多页 deck 自动转换或任意页面的全对象原生重建。
 
 ### 生成的 PPTX 还能修改吗？
 
-可以作为整体图片页移动、替换、插入，但不能逐字编辑文本。如果要改内容，建议回到 slide brief 或 prompt 层重生成对应页面。
+分两种情况：
+
+- `rw-consulting-ppt` 默认生成的是 `image-only PPTX`：每页是一张完整图片，可以整体移动、替换、插入，但不能逐字编辑文本。
+- 如果你把某些关键页面再交给 `ppt-to-editable` 转换，那么这些页面会变成单页 editable PPTX；其中被恢复为 PowerPoint 文本框、原生形状、原生表格的部分可以修改，仍作为图片裁剪保留的复杂视觉元素不能逐对象编辑。
+
+实际可编辑范围以 `editability_report.json` 为准。需要改大段内容时，通常仍建议回到 slide brief 或 prompt 层重生成；需要小范围改字、改数字、改标签时，适合使用 `ppt-to-editable`。
 
 ### 为什么一定要先确认样页？
 
@@ -331,7 +434,7 @@ rw-consulting-ppt-skill/
 
 ### 可以只生成 PNG，不生成 PPTX 吗？
 
-可以。PPTX 只是把已确认的 PNG 机械打包成演示文件。
+可以。默认图片版 PPTX 只是把已确认的 PNG 机械打包成演示文件；如果不需要演示文件，可以只交付 PNG。关键页 editable conversion 是额外步骤，只在你明确需要时再做。
 
 ### 可以用于英文 deck 吗？
 
@@ -342,5 +445,5 @@ rw-consulting-ppt-skill/
 如果你下载并使用这个 skill，欢迎扫码加入微信群一起讨论 AI x Consulting 工作流、PPT 生成效果和使用问题。二维码可能会过期，过期后可以通过 GitHub issue 提醒更新。
 
 <p>
-  <img src="assets/wechat-group-qr.jpg" alt="AI X Consulting 讨论群二维码" width="320">
+  <img src="skills/rw-consulting-ppt/assets/wechat-group-qr.jpg" alt="AI X Consulting 讨论群二维码" width="320">
 </p>

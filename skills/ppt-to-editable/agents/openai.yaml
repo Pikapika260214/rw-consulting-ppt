@@ -1,0 +1,7 @@
+interface:
+  display_name: "PPT to Editable"
+  short_description: "Convert a single-page PNG/JPG slide image or screenshot into editable PPTX with OCR review, clean backgrounds, reconstruction, native shapes, and tight source crops."
+  default_prompt: "Use $ppt-to-editable. Convert this single-page PNG/JPG slide image or screenshot into an editable PowerPoint. Preserve the source image as the reference, run OCR and OCR review, avoid visible overlay over source text, and choose clean-background plus editable text or hybrid/reconstruction for simple native objects where practical. Preserve complex visuals as tight source crops, do not introduce PowerPoint shadows/glow/bevel/reflection/theme effects unless source-matched, and produce an editability report that proves the editable text/native-object structure."
+
+policy:
+  allow_implicit_invocation: true
