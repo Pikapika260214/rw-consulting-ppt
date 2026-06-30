@@ -175,7 +175,9 @@ The Chinese example is retained so users can inspect the original output density
 
 The English example was generated from the AI glasses market deck by changing only the readable slide text while preserving the visual system, information density, composition, and page rhythm.
 
-![English AI glasses market deck contact sheet](skills/rw-consulting-ppt/examples/ai-glasses-market-deck-en/contact_sheet.png)
+<p>
+  <img src="skills/rw-consulting-ppt/examples/ai-glasses-market-deck-en/contact_sheet.png" alt="English AI glasses market deck contact sheet" width="720">
+</p>
 
 Start with `skills/rw-consulting-ppt/examples/README.md` for the current example inventory and the Image2 text-conversion prompt.
 

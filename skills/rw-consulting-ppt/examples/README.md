@@ -16,7 +16,9 @@ This is the public Chinese reference example for users who want to inspect the o
 
 `ai-glasses-market-deck-en/` was generated from a Chinese source deck with Image2/img2img by changing only the slide text while preserving the visual system, information density, composition, and page rhythm. The source deck is retained in the repository for provenance, but it is not part of the public showcase.
 
-![English AI glasses market deck contact sheet](ai-glasses-market-deck-en/contact_sheet.png)
+<p>
+  <img src="ai-glasses-market-deck-en/contact_sheet.png" alt="English AI glasses market deck contact sheet" width="720">
+</p>
 
 Generated files:
 
