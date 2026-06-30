@@ -9,6 +9,12 @@ This repository contains two sibling Codex skills:
 
 The two skills are intentionally separate. `rw-consulting-ppt` creates the consulting slide image; `ppt-to-editable` can later recover limited editability for selected pages. This package does not promise a fully native, all-object editable PowerPoint deck from rough notes in one step.
 
+## Visual Preview
+
+![RW Consulting PPT workflow preview](skills/rw-consulting-ppt/assets/readme-hero.png)
+
+From rough business inputs to proof-object-first consulting slides.
+
 ## When To Use
 
 Use `rw-consulting-ppt` when the hard part is the consulting expression:
@@ -75,6 +81,8 @@ Deliverables: editable PPTX, preview image, and editability_report.json
 ```
 
 ## Workflow
+
+![Dialogue-based workflow preview](skills/rw-consulting-ppt/assets/workflow-dialogue.png)
 
 `rw-consulting-ppt` uses a gated workflow:
 
@@ -153,7 +161,37 @@ The public copy keeps a bilingual example strategy:
 - One original Chinese example is retained as a source-quality reference.
 - One full English example deck has been generated from the Chinese reference by changing only the slide text, preserving the visual system, information density, composition, and page rhythm.
 
+### Chinese Reference Examples
+
+The Chinese examples are retained so users can inspect the original output density, visual rhythm, and consulting-report page structure.
+
+**AI Companion Toys Management Deck**
+
+![AI companion toys management deck contact sheet](skills/rw-consulting-ppt/examples/ai-companion-toys-management-deck/contact_sheet.png)
+
+![AI companion toys management deck overview](skills/rw-consulting-ppt/examples/ai-companion-toys-management-deck/overview-3x2.png)
+
+**AI Glasses Market Deck**
+
+![AI glasses market deck contact sheet](skills/rw-consulting-ppt/examples/ai-glasses-market-deck/contact_sheet.png)
+
+![AI glasses market deck overview](skills/rw-consulting-ppt/examples/ai-glasses-market-deck/overview-3x2.png)
+
+### English Localized Example
+
+The English example was generated from the AI glasses market deck by changing only the readable slide text while preserving the visual system, information density, composition, and page rhythm.
+
+![English AI glasses market deck contact sheet](skills/rw-consulting-ppt/examples/ai-glasses-market-deck-en/contact_sheet.png)
+
 Start with `skills/rw-consulting-ppt/examples/README.md` for the current example inventory and the Image2 text-conversion prompt.
+
+## Community
+
+For Chinese-language discussion and feedback, scan the WeChat group QR code. The QR code may expire; if it does, please open a GitHub issue so it can be refreshed.
+
+<p>
+  <img src="skills/rw-consulting-ppt/assets/wechat-group-qr.jpg" alt="WeChat discussion group QR code" width="320">
+</p>
 
 ## Repository Structure
 
