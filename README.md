@@ -159,23 +159,15 @@ For `ppt-to-editable`:
 The public copy keeps a bilingual example strategy:
 
 - One original Chinese example is retained as a source-quality reference.
-- One full English example deck has been generated from the Chinese reference by changing only the slide text, preserving the visual system, information density, composition, and page rhythm.
+- One full English example deck has been generated from a Chinese source deck by changing only the slide text, preserving the visual system, information density, composition, and page rhythm.
 
-### Chinese Reference Examples
+### Chinese Reference Example
 
-The Chinese examples are retained so users can inspect the original output density, visual rhythm, and consulting-report page structure.
+The Chinese example is retained so users can inspect the original output density, visual rhythm, and consulting-report page structure.
 
 **AI Companion Toys Management Deck**
 
-![AI companion toys management deck contact sheet](skills/rw-consulting-ppt/examples/ai-companion-toys-management-deck/contact_sheet.png)
-
 ![AI companion toys management deck overview](skills/rw-consulting-ppt/examples/ai-companion-toys-management-deck/overview-3x2.png)
-
-**AI Glasses Market Deck**
-
-![AI glasses market deck contact sheet](skills/rw-consulting-ppt/examples/ai-glasses-market-deck/contact_sheet.png)
-
-![AI glasses market deck overview](skills/rw-consulting-ppt/examples/ai-glasses-market-deck/overview-3x2.png)
 
 ### English Localized Example
 

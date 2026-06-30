@@ -2,24 +2,15 @@
 
 This folder keeps the original Chinese examples and defines the next English example target.
 
-## Current Chinese Examples
+## Chinese Reference Example
 
 - `ai-companion-toys-management-deck/`
-- `ai-glasses-market-deck/`
 
-Keep one of these as the Chinese reference example for public users who want to inspect the original output density and visual system.
+This is the public Chinese reference example for users who want to inspect the original output density and visual system.
 
 ### AI Companion Toys Management Deck
 
-![AI companion toys management deck contact sheet](ai-companion-toys-management-deck/contact_sheet.png)
-
 ![AI companion toys management deck overview](ai-companion-toys-management-deck/overview-3x2.png)
-
-### AI Glasses Market Deck
-
-![AI glasses market deck contact sheet](ai-glasses-market-deck/contact_sheet.png)
-
-![AI glasses market deck overview](ai-glasses-market-deck/overview-3x2.png)
 
 ## English Example
 
