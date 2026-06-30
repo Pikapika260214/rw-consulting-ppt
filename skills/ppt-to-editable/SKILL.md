@@ -124,7 +124,7 @@ For high-fidelity image-to-editable conversion, default to line-level trace:
 
 Use paragraph groups only when the user explicitly prioritizes easier paragraph editing over visual line-break fidelity. If paragraph grouping drifts, switch back to line-level trace.
 
-For short labels, card captions, legend labels, badge numbers, and one-line conclusion snippets, avoid PowerPoint auto-wrap when a single trailing glyph or punctuation mark would fall to a new line. Widen the text box, reduce font size within the readable range, or set `no_wrap: true`; do not accept one-character orphan wraps as a valid reconstruction. For CJK source slides, apply this rule especially strictly because one orphan character is visually obvious.
+For short labels, card captions, legend labels, badge numbers, and one-line conclusion snippets, avoid PowerPoint auto-wrap when a single trailing Chinese character or punctuation would fall to a new line. Widen the text box, reduce font size within the readable range, or set `no_wrap: true`; do not accept one-character orphan wraps as a valid reconstruction.
 
 Never send raw OCR directly to the final PPTX. Classify each OCR record first as `accepted`, `corrected`, `needs_review`, `omit`, `keep_in_background`, or `reconstruct_as_native`. Low-confidence single glyphs, icon text, numeric badges, decorative symbols, and unsupported vertical/rotated text should not become accidental horizontal editable text.
 

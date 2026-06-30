@@ -2,7 +2,7 @@
 
 Use this reference when the user provides a good or bad slide example, asks to remember a lesson, or wants the deck to inherit a known visual standard.
 
-This file stores reusable public patterns only.
+This public version stores desensitized reusable patterns only.
 
 ## Storage Convention
 
@@ -43,7 +43,7 @@ For text-only public examples, use:
 - Type: bad example
 - Observed issue: what feels wrong at first glance
 - Root cause: message, evidence carrier, hierarchy, visual balance, color, text, or routing
-- Fix that worked / likely fix: keep the explanatory sentence, but rewrite the visible label as `Evidence anchors`, `Strategic implication`, `Key judgment`, `Business implication`, `Underlying risk`, `Constraint`, `Note`, or remove the label entirely.
+- Fix that worked / likely fix: keep the explanatory sentence, but rewrite the visible label as `证据锚点`, `战略含义`, `关键判断`, `商业启示`, `深层风险`, `约束条件`, `备注`, or remove the label entirely.
 - Reusable caution: what future slides should avoid
 ```
 
@@ -137,8 +137,8 @@ For text-only public examples, use:
 - Type: bad pattern
 - Context: an image-only consulting deck sample generated after raw research notes were converted into slide prompts.
 - Observed issue: the sample is technically a PNG, but the page looks like a normal editable PPT or HTML wireframe: thin green outlines, small card/table modules, generic icons, and no dominant proof object.
-- Root cause: the prompt preserved the blueprint structure too literally and did not force a core visual concept. The image model was asked to render a layout instead of to create a consulting exhibit that proves the claim.
-- Fix that worked / likely fix: keep the explanatory sentence, but rewrite the visible label as `Evidence anchors`, `Strategic implication`, `Key judgment`, `Business implication`, `Underlying risk`, `Constraint`, `Note`, or remove the label entirely.
+- Root cause: the prompt preserved the blueprint structure too literally and did not force a visual mother concept. The image model was asked to render a layout instead of to create a consulting exhibit that proves the claim.
+- Fix that worked / likely fix: keep the explanatory sentence, but rewrite the visible label as `证据锚点`, `战略含义`, `关键判断`, `商业启示`, `深层风险`, `约束条件`, `备注`, or remove the label entirely.
   - Replace generic cards/tables with a named proof object such as route map, ladder, decomposition, decision matrix, capability stack, or timeline.
   - Limit must-keep text to the few terms and numbers that anchor the proof object.
   - Use color as an orientation system, not as all-green/all-teal line art.
@@ -184,7 +184,7 @@ For text-only public examples, use:
   - The prompt over-specified boxes and labels instead of asking for a memorable evidence carrier.
   - The style drifted into a one-note green analytical theme rather than the established high-authority blue/black consulting system.
   - The content was too generic: "real demand" vs "not phone replacement" was asserted more than proven through player routes, price bands, consumer use cases, and Google Glass failure conditions.
-- Fix that worked / likely fix: keep the explanatory sentence, but rewrite the visible label as `Evidence anchors`, `Strategic implication`, `Key judgment`, `Business implication`, `Underlying risk`, `Constraint`, `Note`, or remove the label entirely.
+- Fix that worked / likely fix: keep the explanatory sentence, but rewrite the visible label as `证据锚点`, `战略含义`, `关键判断`, `商业启示`, `深层风险`, `约束条件`, `备注`, or remove the label entirely.
   - Page 1 should use a "demand validation funnel" or "three-market-test gate" showing buyer pain, daily-wear feasibility, and ecosystem closure.
   - Page 2 should use a "player route map" across ecosystem entry, phone accessory, display assistant, camera glasses, and XR platform, with price/route anchors.
   - Keep the public-report detail, but make the proof object visually dominant before explanatory labels.
@@ -196,23 +196,23 @@ For text-only public examples, use:
 - Context: a public portfolio or GitHub showcase deck meant to be read without the creator presenting it.
 - Observed issue: opening thesis and architecture pages look visually clean, but the reader cannot fully recover the argument from the slide alone.
 - Root cause: the workflow used live-presentation text density for a standalone report artifact.
-- Fix that worked / likely fix: keep the explanatory sentence, but rewrite the visible label as `Evidence anchors`, `Strategic implication`, `Key judgment`, `Business implication`, `Underlying risk`, `Constraint`, `Note`, or remove the label entirely.
+- Fix that worked / likely fix: keep the explanatory sentence, but rewrite the visible label as `证据锚点`, `战略含义`, `关键判断`, `商业启示`, `深层风险`, `约束条件`, `备注`, or remove the label entirely.
 - Reusable caution: for report decks, do not rely on oral narration. Slides like timeline migration, architecture stack, and strategy framework pages need more written explanation than live presentation samples.
 
 ### Meta-Label Leakage
 
 - Type: bad pattern
 - Context: a standalone report page where internal prompt scaffolding leaked into the final design.
-- Observed issue: labels such as `How to read this page`, `Reading guide`, or `Explanation block` appear on the slide.
+- Observed issue: labels such as `如何阅读这一页`, `读图说明`, or `Explanation block` appear on the slide.
 - Root cause: the prompt asked for a reader explanation but did not separate internal design instructions from final page copy.
-- Fix that worked / likely fix: keep the explanatory sentence, but rewrite the visible label as `Evidence anchors`, `Strategic implication`, `Key judgment`, `Business implication`, `Underlying risk`, `Constraint`, `Note`, or remove the label entirely.
+- Fix that worked / likely fix: keep the explanatory sentence, but rewrite the visible label as `证据锚点`, `战略含义`, `关键判断`, `商业启示`, `深层风险`, `约束条件`, `备注`, or remove the label entirely.
 - Reusable caution: client-facing slides should never reveal the production scaffold. They should read like intentional business writing.
 
 ### Research-Process Label Leakage
 
 - Type: bad pattern
 - Context: a standalone report page where research audit language appears as a visible client-facing label.
-- Observed issue: `Evidence boundary` appears on the slide. The meaning is useful internally, but the wording feels like process documentation rather than consulting writing.
+- Observed issue: `璇佹嵁杈圭晫` appears on the slide. The meaning is useful internally, but the wording feels like process documentation rather than consulting writing.
 - Root cause: the skill preserved the internal evidence-boundary concept as final visible copy.
-- Fix that worked / likely fix: keep the explanatory sentence, but rewrite the visible label as `Evidence anchors`, `Strategic implication`, `Key judgment`, `Business implication`, `Underlying risk`, `Constraint`, `Note`, or remove the label entirely.
+- Fix that worked / likely fix: keep the explanatory sentence, but rewrite the visible label as `证据锚点`, `战略含义`, `关键判断`, `商业启示`, `深层风险`, `约束条件`, `备注`, or remove the label entirely.
 - Reusable caution: evidence discipline should be visible through precise wording, not through internal research-process labels.

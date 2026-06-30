@@ -2,7 +2,7 @@
 
 Load this reference when the project is new, the user's taste is ambiguous, or the requested output needs to match a high-authority consulting-image standard.
 
-This public context pack preserves reusable workflow judgment, not private examples.
+This file is a sanitized public context pack. It preserves reusable workflow judgment, not private examples.
 
 ## Start Protocol
 
@@ -25,7 +25,7 @@ Required approval sequence:
 
 1. Preference alignment: audience/use case, delivery mode, page count, detail level, theme/style, output format.
 2. Storyline / blueprint approval: core question, working thesis, storyline, page list, and sample page choice.
-3. Sample brief approval: visual mode, proof object, core visual concept, must-keep text, and what is intentionally left out.
+3. Sample brief approval: visual mode, proof object, visual mother concept, must-keep text, and what is intentionally left out.
 
 Only after these approvals should the agent run the Concept Image Director pass from `references/concept-image-director.md` and write Image2-style full-slide prompts.
 
@@ -36,7 +36,7 @@ Slide brief schema:
 - Delivery mode: live presentation or standalone report.
 - Visual mode: Clear Report Exhibit, Hero Concept Exhibit, or Evidence Architecture Exhibit.
 - Proof object: the visual evidence carrier that proves the claim. It must be named as a route map, ladder, matrix, decomposition, stack, funnel, timeline, comparison object, or another concrete exhibit type.
-- Core visual concept: the memorable composition that makes the proof object visible.
+- Visual mother concept: the memorable composition that makes the proof object visible.
 - Must-keep text and numbers: 3-6 non-negotiable items only, attached to the proof object rather than floating as KPI blocks.
 - Text hierarchy: action title, subtitle if needed, proof-object labels, examples, one optional bottom takeaway, and low-weight source note if needed.
 - Omit list: claims, caveats, metrics, or labels intentionally removed or demoted to avoid clutter.
@@ -55,7 +55,7 @@ Before Image2-style full-slide prompting:
 
 1. Choose the proof object from the business question.
 2. Choose the visual mode: Clear Report Exhibit, Hero Concept Exhibit, or Evidence Architecture Exhibit.
-3. Translate the proof object into a core visual concept.
+3. Translate the proof object into a visual mother concept.
 4. Limit must-keep text to the anchors that make the proof credible.
 5. Collapse action title, subtitle, evidence anchors, bottom takeaway, and source note into one hierarchy.
 6. Add rejection risks: generic cards, plain table, over-directed wireframe, one-note color, detached KPI rail, multiple conclusion zones, small unreadable text, or no visible proof object.
@@ -109,7 +109,7 @@ Use when the deck is read without a speaker.
 - Add 1-2 natural consulting sentences only when they fit into the subtitle, proof-object annotation, or a low-weight note.
 - Add source-note or caveat lines where a claim could be overread, but keep them visually quieter than the takeaway.
 - Keep the page self-contained: the reader should know what the chart/diagram means, why it matters, and what conclusion to take away.
-- Do not expose internal scaffolding labels such as `How to read this page`, `Reading guide`, `Reader note`, or `Explanation block`. Also avoid research-process labels such as `Research process` on the final page.
+- Do not expose internal scaffolding labels such as `How to read this page`, `如何阅读这一页`, `读图说明`, `Reader note`, or `Explanation block`. Also avoid research-process labels such as `研究过程` on the final page.
 
 For public GitHub or portfolio artifacts, default to standalone report unless the user explicitly says the deck is for live presentation.
 
@@ -173,7 +173,7 @@ Constrain:
 
 Leave composition and rhythm to the image model unless the user asks for strict reproduction, but do not leave message hierarchy ambiguous. The prompt must specify one action title, one main proof object, one optional bottom takeaway, and low-weight source notes.
 
-Before generating the first sample, present a compact sample brief and ask for approval. The brief must name the one governing message, visual mode, proof object, core visual concept, must-keep text, and what will be removed or deferred to avoid clutter.
+Before generating the first sample, present a compact sample brief and ask for approval. The brief must name the one governing message, visual mode, proof object, visual mother concept, must-keep text, and what will be removed or deferred to avoid clutter.
 
 ## Message Layer Rules
 
@@ -188,7 +188,7 @@ Before generating the first sample, present a compact sample brief and ask for a
 If all layers repeat the same claim, cut wording until each layer has a distinct job.
 If a large number is not attached to the proof object, shrink it, move it, or remove it before prompting.
 
-For standalone report pages, use natural section labels such as `Evidence anchors`, `Strategic implication`, `Key judgment`, `Business implication`, `Underlying risk`, `Constraint`, `Note`, or no label. Do not use meta labels that describe the act of reading the page, and avoid research-process labels such as `Research process`.
+For standalone report pages, use natural section labels such as `证据锚点`, `战略含义`, `关键判断`, `商业启示`, `深层风险`, `约束条件`, `备注`, or no label. Do not use meta labels that describe the act of reading the page, and avoid research-process labels such as `研究过程`.
 
 ## New-Project Invocation Pattern
 

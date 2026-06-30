@@ -75,7 +75,7 @@ def text_extents(draw: ImageDraw.ImageDraw, lines: list[str], font: ImageFont.Im
     for line in lines:
         left, top, right, bottom = draw.textbbox((0, 0), line, font=font)
         widths.append(right - left)
-    _, top, _, bottom = draw.textbbox((0, 0), "Ag", font=font)
+    _, top, _, bottom = draw.textbbox((0, 0), "国Ag", font=font)
     line_h = math.ceil((bottom - top) * line_spacing)
     return max(widths or [0]), max(1, line_h * max(1, len(lines)))
 

@@ -14,7 +14,7 @@ Before full-slide image generation, every slide needs a concept-image direction:
 - Evidence boundary: confirmed facts, user assumptions, inference, and open uncertainties.
 - Visual mode: Clear Report Exhibit, Hero Concept Exhibit, or Evidence Architecture Exhibit.
 - Proof object: the visible evidence carrier that proves the claim.
-- Core visual concept: the memorable composition that makes the proof object visible.
+- Visual mother concept: the memorable composition that makes the proof object visible.
 - Must-keep text and numbers: 3-6 items only, unless the user explicitly chose a dense report page; numbers must attach to the proof object instead of floating as KPI blocks.
 - Text hierarchy: action title, subtitle if needed, proof-object labels, examples, one optional bottom takeaway, and low-weight source note if needed.
 - Avoid list: repeated claims, generic cards, process arrows, over-specified wireframes, decorative icons, and text that does not support the proof object.
@@ -68,7 +68,7 @@ Constrain:
 
 - what the page must prove;
 - the proof object;
-- the core visual concept;
+- the visual mother concept;
 - action title and must-keep proof-object text;
 - evidence hierarchy;
 - visual tone and exclusions.
@@ -92,7 +92,7 @@ Default to a high-authority analytical consulting system:
 - Accent: a tiny warm marker color only for sparks, dots, or callout emphasis.
 - Structure: light rules, subtle depth, generous margins, clear hierarchy.
 - Density: enough evidence to prove the point, but with reduced reading friction.
-- For standalone report decks, information density is part of the style master. If a sample is approved, preserve its readable on-slide text density, annotation depth, evidence-band rhythm, and source-boundary treatment unless the user asks for a lighter page.
+- For standalone report decks, information density is part of the style master. If a sample is approved, preserve its readable Chinese text density, annotation depth, evidence-band rhythm, and source-boundary treatment unless the user asks for a lighter page.
 
 Avoid:
 
@@ -205,7 +205,7 @@ Reject and regenerate a sample when:
 - The page is one-note color, especially all green/teal outlines.
 - It has many labels but no dominant route map, ladder, decomposition, matrix, timeline, funnel, stack, or comparison object.
 
-Name the failure precisely, then revise the governing message, proof object, or core visual concept. Do not fix a weak sample by only changing colors or adding decoration.
+Name the failure precisely, then revise the governing message, proof object, or visual mother concept. Do not fix a weak sample by only changing colors or adding decoration.
 
 ## Reusable Good Patterns
 
@@ -281,7 +281,7 @@ Subtitle: <one short explanatory sentence if needed; do not repeat the title>
 Main proof object:
 <named evidence carrier: route map / ladder / matrix / decomposition / stack / funnel / timeline / comparison object>
 
-Core visual concept:
+Visual mother concept:
 <memorable composition that makes the proof object visible>
 
 Evidence anchors attached to the proof object:
@@ -306,5 +306,5 @@ Avoid:
 Generic card dashboard, plain comparison table, thin-line wireframe, all-green/teal theme, detached KPI rail, multiple conclusion zones, source note competing with takeaway, stock photos, people, decorative blobs, random icons, fake English, watermark, web UI look, normal PPT template feel.
 
 Output:
-One fully generated full-slide PNG. Keep key slide text legible. Prioritize action title, proof-object labels, main numbers attached to the proof object, and the single bottom takeaway if present.
+One fully generated full-slide PNG. Keep key Chinese text legible. Prioritize action title, proof-object labels, main numbers attached to the proof object, and the single bottom takeaway if present.
 ```

@@ -1,13 +1,13 @@
 ---
 name: rw-consulting-ppt
-description: Use for image-only consulting slides: turn bullet points, rough notes, research findings, or a page outline into full-slide PNGs and optional image-only PPTX. Use ppt-to-editable only after a finished slide image is approved and limited editability is needed.
+description: Use when the user wants to turn bullet points, rough notes, research findings, or a page outline into an image-only consulting-grade PPT deck, especially standalone report exhibits, live-presentation concept slides, full-slide PNGs, or PNG plus image-only PPTX. Use when editable PPTX or code-rendered slide pages are not allowed.
 ---
 
 # RW Consulting PPT
 
 Use this skill to convert bullet points, research notes, and rough outlines into a polished consulting-style deck made from full-slide images.
 
-This public package preserves the message-first, proof-object-first PPT workflow while excluding private names, local file paths, client context, real project examples, and personal branding.
+This is a sanitized public version of a message-first, proof-object-first PPT workflow. Preserve the method; do not preserve private names, local file paths, client context, real project examples, or personal branding.
 
 ## Routing Lock: Image-Only Consulting Slides
 
@@ -128,7 +128,7 @@ Every slide must map evidence to the exact claim it supports before visual desig
 For standalone report decks, treat information density as part of the style system, not as an after-the-fact preference.
 
 - The design job is not to reduce evidence. The design job is to reduce reading friction while preserving the evidence structure.
-- When the user approves a sample page, inherit its page rhythm, readable on-slide text density, annotation depth, evidence-band structure, and source-boundary treatment as part of the style master.
+- When the user approves a sample page, inherit its page rhythm, readable Chinese text density, annotation depth, evidence-band structure, and source-boundary treatment as part of the style master.
 - Do not fix text-accuracy risk by turning a standalone report page into a sparse concept poster. Shorten text chunks when needed, but keep enough proof-object annotation, evidence anchors, business implications, and source boundaries for the page to be read without a presenter.
 - If the output is clean but too empty for the approved delivery mode, reject it as a density failure, not as a visual success.
 
@@ -171,7 +171,7 @@ This skill has three separate approval gates. Do not collapse them:
 
 1. Preference alignment: audience/use case, mode, page count, detail level, style/color, output format.
 2. Storyline / blueprint approval: core question, working thesis, storyline, page list, and which page(s) will be sampled.
-3. Sample brief approval: for the first 1-2 sample pages, visual mode, proof object, core visual concept, must-keep text, bottom-synthesis policy, and prompt summary.
+3. Sample brief approval: for the first 1-2 sample pages, visual mode, proof object, visual mother concept, must-keep text, bottom-synthesis policy, and prompt summary.
 
 Do not create any of the following before alignment is confirmed:
 
@@ -193,19 +193,19 @@ Minimum required user-controlled preferences:
 2. Theme color / visual tone.
 3. Page count or image count: exact count or acceptable range.
 4. Detail level: concise, standard, or dense.
-5. Visual style: boardroom strategy, management report, investor memo, product strategy, technical strategy, mobile-readable report, or user-supplied reference.
+5. Visual style: boardroom strategy, management report, investor memo, product strategy, technical strategy, Xiaohongshu-readable, or user-supplied reference.
 6. Delivery format: PNG images only, or PNG images plus image-only PPTX.
 
 If any minimum item is missing, ask a concise alignment question first. Recommended shape:
 
 ```markdown
-Please confirm these 6 preferences before I start production; otherwise the deck can drift quickly:
-1. Audience / use case:
-2. Delivery mode: live presentation deck or standalone report deck?
-3. Page count / image count:
-4. Detail level: concise / standard / dense?
-5. Visual style / theme color:
-6. Output format: PNG only / PNG + image-only PPTX
+请确认下面 6 个偏好，我再开始产出，不然很容易跑偏：
+1. 受众 / 使用场景：
+2. 交付模式：presentation / 独立阅读型报告？
+3. 页数 / 图片数：
+4. 信息密度：简洁 / 标准 / 密集？
+5. 视觉风格 / 主题色：
+6. 输出格式：PNG / PNG + 图片型 PPTX
 ```
 
 Required alignment items:
@@ -232,7 +232,7 @@ Approval handoff is a user-visible gate, not a file-system checkpoint. If you sa
 For the storyline / blueprint approval gate, the chat reply must include this compact handoff block:
 
 ```markdown
-Please approve this storyline / blueprint:
+需要你批准的是这套故事线 / 蓝图：
 
 Core question:
 <one sentence>
@@ -241,19 +241,19 @@ Working thesis:
 <one paragraph>
 
 Page list:
-1. <page title> - <page role / proof object>
-2. <page title> - <page role / proof object>
+1. <page title> — <page role / proof object>
+2. <page title> — <page role / proof object>
 ...
 
 Recommended sample pages:
 - <page number and why it tests the deck>
 
-Reply "approved" or tell me which pages to change. Before approval, I will not create slide briefs, image prompts, sample PNGs, or a PPTX packaging plan.
+请回复“批准”或指出要改哪几页；批准前我不会创建 slide briefs、image prompts、sample PNGs 或 PPTX packaging plan。
 ```
 
 Self-check before ending the turn: if the user could reasonably ask "what story am I approving?", the handoff failed. Add the block before ending the turn.
 
-After storyline / blueprint approval, do not generate sample PNGs until the sample page brief has been shown and approved, including visual mode, proof object, core visual concept, must-keep text, and prompt summary.
+After storyline / blueprint approval, do not generate sample PNGs until the sample page brief has been shown and approved, including visual mode, proof object, visual mother concept, must-keep text, and prompt summary.
 
 ## Delivery Mode Choice
 
@@ -270,7 +270,7 @@ Use when the deck will be presented by a speaker in a meeting, interview, classr
 - Typical must-keep text: title, 1 subtitle, 3-6 labels or numbers, 1 takeaway.
 - QA focus: legibility from distance, visual hierarchy, no clutter, strong proof object.
 
-Use this mode when the user says: "live presentation", "presentation", "roadshow", "interview presentation", "meeting walkthrough", or "I will present this verbally".
+Use this mode when the user says: "现场讲", "presentation", "roadshow", "interview presentation", "面试展示", or "讲给别人听".
 
 ### Mode B: Standalone Report Deck
 
@@ -283,7 +283,7 @@ Use when the deck must be read without a presenter, sent as a PDF/PPT attachment
 - Typical must-keep text: title, 1-2 sentence subtitle, 3-8 evidence labels or numbers, 1 caveat line, 1 takeaway.
 - QA focus: a reader can understand the argument without oral narration.
 
-Use this mode when the user says: "standalone report", "report deck", "send as PDF", "GitHub showcase", "portfolio", "reader should understand without me", or "send it for others to read".
+Use this mode when the user says: "独立阅读", "报告", "send as PDF", "GitHub showcase", "portfolio", "reader should understand without me", or "发给别人看".
 
 If the user does not choose a mode, ask once. If they still do not choose, default to standalone report deck for public or portfolio use, and live presentation deck for meeting-only use.
 
@@ -324,7 +324,7 @@ For strong image models:
 
 - Define what the page must prove.
 - Define the proof object that makes the claim credible.
-- Define the core visual concept that makes the proof object memorable.
+- Define the visual mother concept that makes the proof object memorable.
 - Define non-negotiable text, numbers, and brand constraints.
 - Let the model choose composition, visual rhythm, and hierarchy within those constraints.
 
@@ -336,7 +336,7 @@ RW's concept-image layer is responsible for:
 
 - converting each page claim into a named proof object;
 - choosing the visual mode: Clear Report Exhibit, Hero Concept Exhibit, or Evidence Architecture Exhibit;
-- choosing a core visual concept stronger than cards, tables, or wireframes;
+- choosing a visual mother concept stronger than cards, tables, or wireframes;
 - keeping message layers distinct;
 - enforcing a high-authority consulting visual system;
 - rejecting samples that look like generic editable PPT templates rather than deliberate consulting exhibits.
@@ -348,7 +348,7 @@ Required output inside each slide brief:
 
 - Visual mode: Clear Report Exhibit, Hero Concept Exhibit, or Evidence Architecture Exhibit.
 - Proof object type: route map, ladder, matrix, decomposition, stack, funnel, timeline, comparison object, or a clearly named alternative.
-- Core visual concept: one sentence describing the memorable exhibit.
+- Visual mother concept: one sentence describing the memorable exhibit.
 - Evidence anchors: 3-6 must-keep text or number items, each attached to the proof object rather than floating as independent KPI blocks.
 - Claim-evidence map: what each evidence anchor supports, and what important claim remains pending or unproven.
 - Visual implication guardrails: which lines, arrows, gates, checks, rings, colors, or groupings must not imply unsupported proof.
@@ -448,7 +448,7 @@ Create a blueprint from the approved `Inputs for PPT Production` before image ge
 - page-by-page structure;
 - each slide's governing message;
 - each slide's proof object;
-- suggested core visual concept;
+- suggested visual mother concept;
 - required evidence still missing.
 
 Every slide title should be a conclusion, not only a topic label.
@@ -478,7 +478,7 @@ For each confirmed slide, create a slide brief:
 - evidence boundary: confirmed facts, user assumptions, Codex inference, and open uncertainties;
 - claim-evidence map: what each fact/example/metric supports, and what it must not visually imply;
 - proof object;
-- core visual concept;
+- visual mother concept;
 - must-keep text and numbers, ideally 3-6 items;
 - delivery mode: live presentation or standalone report;
 - natural reader-facing body copy: required only for standalone report mode;
@@ -497,7 +497,7 @@ For each page, decide:
 
 - visual mode;
 - strongest proof object;
-- core visual concept;
+- visual mother concept;
 - evidence anchors;
 - claim-evidence fit;
 - visual implication guardrails;
@@ -514,7 +514,7 @@ For the first 1-2 sample pages, show the user a compact sample brief before gene
 - slide title and page role;
 - visual mode;
 - proof object;
-- core visual concept;
+- visual mother concept;
 - must-keep text and numbers;
 - what is already evidenced vs. what remains pending or unproven;
 - how player/company/product examples support the page message;
@@ -534,7 +534,7 @@ Include:
 - action title and subtitle, with one highest-priority conclusion zone;
 - proof object;
 - visual mode;
-- core visual concept;
+- visual mother concept;
 - evidence anchors attached to the proof object;
 - one optional bottom takeaway;
 - low-weight source note or caveat only if needed;
@@ -547,7 +547,7 @@ For live presentation mode, avoid long paragraphs, dense tables, and small-font 
 
 For standalone report mode, include enough explanation for the page to be read without a presenter, but do not create parallel conclusion zones. Natural body copy must either become the subtitle, a small proof-object annotation, or a low-weight source/caveat line. The bottom takeaway appears at most once.
 
-Do not expose internal scaffolding labels in the final slide. Avoid labels such as `How to read this page`, `Reader note`, `Explanation block`, `Interpretation`, `Research process`, or `Reading guide`. Replace them with natural business labels such as `Evidence anchors`, `Strategic implication`, `Key judgment`, `Business implication`, `Underlying risk`, `Constraint`, `Note`, or no label at all.
+Do not expose internal scaffolding labels in the final slide. Avoid labels such as `How to read this page`, `如何阅读这一页`, `读图说明`, `Reader note`, `Explanation block`, `Interpretation`, or `研究过程`. Replace them with natural business labels such as `证据锚点`, `战略含义`, `关键判断`, `商业启示`, `深层风险`, `约束条件`, `备注`, or no label at all.
 
 ### 7. Generate Samples First
 
@@ -662,7 +662,7 @@ For standalone report mode, add one more layer when needed:
 - Natural body copy: 1-2 short consulting sentences that explain the implication of the proof object.
 - Source note or caveat line: source type, caveat, or "company-reported / directional signal" note, written as reader-facing business copy.
 
-Use these layers to make the slide self-contained, but collapse them into one visual hierarchy before prompting. Do not label them with meta language such as `How to read this page` or research-audit labels such as `Research process`; write them as if a consultant placed them intentionally on a client-facing page. Do not add them to live presentation mode unless the user requests more text.
+Use these layers to make the slide self-contained, but collapse them into one visual hierarchy before prompting. Do not label them with meta language such as `如何阅读这一页` or research-audit labels such as `研究过程`; write them as if a consultant placed them intentionally on a client-facing page. Do not add them to live presentation mode unless the user requests more text.
 
 ## Proof Object Rules
 
@@ -724,7 +724,7 @@ Subtitle: <one short explanatory sentence, if needed; do not repeat the title>
 Main proof object:
 <the visible evidence carrier that proves the claim>
 
-Core visual concept:
+Visual mother concept:
 <memorable composition that makes the proof object visible>
 
 Evidence anchors attached to the proof object:
@@ -763,7 +763,7 @@ Standalone report notes:
 - Add a small source-note or caveat line when claims could be overread, but keep it visually quiet.
 - Keep text structured and legible; do not turn the page into a paragraph document.
 - Keep at most one bottom takeaway. Do not add a second conclusion band or detached KPI rail. Do not overcorrect one duplicated-bottom page by forbidding bottom synthesis across the whole deck; choose the policy explicitly.
-- Do not use meta labels such as "How to read this page", "Reading guide", "Reader note", or "Explanation block". Also avoid research-process labels such as "Research process" on the final slide. Use normal business labels such as "Evidence anchors", "Strategic implication", "Business implication", "Underlying risk", "Constraint", "Note", or no label.
+- Do not use meta labels such as "How to read this page", "如何阅读这一页", "读图说明", "Reader note", or "Explanation block". Also avoid research-process labels such as "研究过程" on the final slide. Use normal business labels such as "证据锚点", "战略含义", "商业启示", "深层风险", "约束条件", "备注", or no label.
 ```
 
 For live presentation mode, extend the prompt with:

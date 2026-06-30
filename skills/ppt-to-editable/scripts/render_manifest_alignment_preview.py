@@ -151,7 +151,7 @@ def draw_text_box(draw: ImageDraw.ImageDraw, box: dict[str, Any], rect: tuple[in
     ty = y + margin
     usable_w = max(1, w - margin * 2)
     lines = wrap_text(draw, str(box.get("text", "")), font, usable_w, no_wrap=bool(box.get("no_wrap", False)), tracking_px=tracking_px)
-    _, line_h_raw = text_size(draw, "Ag", font, tracking_px)
+    _, line_h_raw = text_size(draw, "国Ag", font, tracking_px)
     line_h = max(1, int(math.ceil(line_h_raw * line_spacing)))
     align = str(box.get("align", "left")).lower()
     for idx, line in enumerate(lines):
