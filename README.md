@@ -39,17 +39,19 @@ Copy one or both skill folders into your Codex skills directory.
 Windows PowerShell:
 
 ```powershell
-New-Item -ItemType Directory -Force "$env:USERPROFILE\.codex\skills" | Out-Null
-Copy-Item -Recurse -Force .\skills\rw-consulting-ppt "$env:USERPROFILE\.codex\skills\rw-consulting-ppt"
-Copy-Item -Recurse -Force .\skills\ppt-to-editable "$env:USERPROFILE\.codex\skills\ppt-to-editable"
+$skillsDir = "$env:USERPROFILE\.codex\skills"
+New-Item -ItemType Directory -Force "$skillsDir\rw-consulting-ppt" | Out-Null
+New-Item -ItemType Directory -Force "$skillsDir\ppt-to-editable" | Out-Null
+Copy-Item -Recurse -Force .\skills\rw-consulting-ppt\* "$skillsDir\rw-consulting-ppt\"
+Copy-Item -Recurse -Force .\skills\ppt-to-editable\* "$skillsDir\ppt-to-editable\"
 ```
 
 macOS / Linux:
 
 ```bash
-mkdir -p ~/.codex/skills
-cp -R ./skills/rw-consulting-ppt ~/.codex/skills/rw-consulting-ppt
-cp -R ./skills/ppt-to-editable ~/.codex/skills/ppt-to-editable
+mkdir -p ~/.codex/skills/rw-consulting-ppt ~/.codex/skills/ppt-to-editable
+cp -R ./skills/rw-consulting-ppt/. ~/.codex/skills/rw-consulting-ppt/
+cp -R ./skills/ppt-to-editable/. ~/.codex/skills/ppt-to-editable/
 ```
 
 Example prompt for `rw-consulting-ppt`:
@@ -156,7 +158,7 @@ For `ppt-to-editable`:
 
 ## Examples
 
-The public copy keeps a bilingual example strategy:
+The examples include one Chinese reference deck and one English localized deck:
 
 - One original Chinese example is retained as a source-quality reference.
 - One full English example deck has been generated from a Chinese source deck by changing only the slide text, preserving the visual system, information density, composition, and page rhythm.
@@ -179,11 +181,19 @@ Start with `skills/rw-consulting-ppt/examples/README.md` for the current example
 
 ## Community
 
-For Chinese-language discussion and feedback, scan the WeChat group QR code. The QR code may expire; if it does, please open a GitHub issue so it can be refreshed.
+For discussion and feedback, the primary community channel is the WeChat group below. GitHub issues are also welcome for bug reports, QR refresh requests, and repository-level questions.
 
 <p>
   <img src="skills/rw-consulting-ppt/assets/wechat-group-qr.jpg" alt="WeChat discussion group QR code" width="320">
 </p>
+
+## License & Attribution
+
+MIT License © 2026 RW Consulting PPT contributors.
+
+If you build on, fork, adapt, or cite this repository, attribution is appreciated. Please mention this repository as the source to help support ongoing maintenance.
+
+欢迎在二次开发或引用时注明本仓库来源，感谢支持项目持续维护。
 
 ## Repository Structure
 
@@ -193,6 +203,7 @@ rw-consulting-ppt/
   LICENSE
   docs/
     english-publication-style-guide.md
+    release-checklist.md
   skills/
     rw-consulting-ppt/
       SKILL.md
@@ -238,7 +249,3 @@ Yes. PPTX packaging is optional. The image-only PPTX is a mechanical wrapper aro
 ### Can this be used for English decks?
 
 Yes. The workflow supports English decks. Use English prompts, English evidence labels, and English typography defaults. CJK-specific OCR, fonts, and line-wrap rules should only be used for CJK source slides.
-
-## Publication Notes
-
-For an English-first public release, keep `docs/english-publication-style-guide.md` as the editorial QA baseline. Before promotion, run a Chinese-residue scan across Markdown, YAML, and Python help text, then generate English-visible showcase assets from the example briefs.
