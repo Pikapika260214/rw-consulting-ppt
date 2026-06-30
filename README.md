@@ -158,28 +158,23 @@ For `ppt-to-editable`:
 
 ## Examples
 
-The examples include one Chinese reference deck and one English localized deck:
+The examples include one Chinese deck and one English deck.
 
-- One original Chinese example is retained as a source-quality reference.
-- One full English example deck has been generated from a Chinese source deck by changing only the slide text, preserving the visual system, information density, composition, and page rhythm.
-
-### Chinese Reference Example
-
-The Chinese example is retained so users can inspect the original output density, visual rhythm, and consulting-report page structure.
+### Chinese Example
 
 **AI Companion Toys Management Deck**
 
 ![AI companion toys management deck overview](skills/rw-consulting-ppt/examples/ai-companion-toys-management-deck/overview-3x2.png)
 
-### English Localized Example
+### English Example
 
-The English example was generated from the AI glasses market deck by changing only the readable slide text while preserving the visual system, information density, composition, and page rhythm.
+**AI Glasses Market Deck EN**
 
 <p>
   <img src="skills/rw-consulting-ppt/examples/ai-glasses-market-deck-en/contact_sheet.png" alt="English AI glasses market deck contact sheet" width="720">
 </p>
 
-Start with `skills/rw-consulting-ppt/examples/README.md` for the current example inventory and the Image2 text-conversion prompt.
+Start with `skills/rw-consulting-ppt/examples/README.md` for the example file list and generation notes.
 
 ## Community
 

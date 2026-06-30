@@ -1,12 +1,10 @@
-# Bilingual Example Set
+# Examples
 
-This folder documents the public example set: one Chinese reference deck and one English localized deck.
+This folder contains the public example set shown in the main README.
 
-## Chinese Reference Example
+## Chinese Example
 
 - `ai-companion-toys-management-deck/`
-
-This is the public Chinese reference example for users who want to inspect the original output density and visual system.
 
 ### AI Companion Toys Management Deck
 
@@ -14,11 +12,13 @@ This is the public Chinese reference example for users who want to inspect the o
 
 ## English Example
 
-`ai-glasses-market-deck-en/` was generated from a Chinese source deck with Image2/img2img by changing only the slide text while preserving the visual system, information density, composition, and page rhythm. The source deck is retained in the repository for provenance, but it is not part of the public showcase.
+- `ai-glasses-market-deck-en/`
 
 <p>
   <img src="ai-glasses-market-deck-en/contact_sheet.png" alt="English AI glasses market deck contact sheet" width="720">
 </p>
+
+Source note: the English deck was localized from a Chinese source deck. Only the English version is shown as the public AI glasses example.
 
 Generated files:
 
@@ -34,7 +34,7 @@ ai-glasses-market-deck-en/contact_sheet.png
 
 The image-only PPTX can be regenerated locally with `scripts/package_image_deck.py`. The repository intentionally ignores `*.pptx` to keep the main branch lightweight.
 
-Editing rule: preserve the slide design. Change only the readable slide text from Chinese to English. Do not simplify the layout, change the proof object, redraw the page in a generic template style, or reduce the consulting density.
+Editing note: keep the existing slide design and translate the slide text into English. Do not redesign the pages, simplify the layout, or turn the deck into a generic template.
 
 Image2 prompt skeleton:
 
