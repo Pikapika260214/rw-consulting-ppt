@@ -63,7 +63,7 @@ Text reconstruction should preserve:
 - source line breaks when they are visually meaningful;
 - approximate position and width;
 - text color, boldness, hierarchy, and alignment;
-- Chinese punctuation and terminology.
+- Source-language punctuation and terminology, including CJK punctuation when the source slide is CJK.
 
 Default to line-level trace:
 

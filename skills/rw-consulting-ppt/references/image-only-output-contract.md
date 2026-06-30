@@ -34,7 +34,7 @@ Preference alignment is not enough to start generation. After preferences are co
 
 - `Inputs for PPT Production`: core question, working thesis, storyline, and page-level structure;
 - deck blueprint: page list, governing message, proof object, visual mode, and sample page choice;
-- sample page brief: visual mother concept, must-keep text, and what will be left out to avoid clutter.
+- sample page brief: core visual concept, must-keep text, and what will be left out to avoid clutter.
 
 Do not create Image2-style full-slide prompts, sample PNGs, generated images, or PPTX packaging plans before these approvals unless the user explicitly says to skip the approval gate.
 
