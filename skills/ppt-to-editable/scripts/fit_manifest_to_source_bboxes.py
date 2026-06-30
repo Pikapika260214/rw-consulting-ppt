@@ -69,7 +69,7 @@ def fits(draw: ImageDraw.ImageDraw, box: dict[str, Any], size_pt: float, bbox: l
     usable_h = max(1, bh - margin_px * 2)
     lines = str(box.get("text", "")).splitlines() or [""]
     max_w = max(text_bbox(draw, line, font)[0] for line in lines)
-    _, line_h_raw = text_bbox(draw, "国Ag", font)
+    _, line_h_raw = text_bbox(draw, "Ag", font)
     line_h = math.ceil(line_h_raw * float(box.get("line_spacing", 1.12)))
     total_h = line_h * max(1, len(lines))
     return max_w <= usable_w and total_h <= usable_h

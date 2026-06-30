@@ -117,7 +117,7 @@ def theme_xml() -> str:
 <a:theme xmlns:a="{NS_A}" name="PPT to Editable">
   <a:themeElements>
     <a:clrScheme name="PPT to Editable"><a:dk1><a:sysClr val="windowText" lastClr="000000"/></a:dk1><a:lt1><a:sysClr val="window" lastClr="FFFFFF"/></a:lt1><a:dk2><a:srgbClr val="1F2937"/></a:dk2><a:lt2><a:srgbClr val="F8FAFC"/></a:lt2><a:accent1><a:srgbClr val="1E5BFF"/></a:accent1><a:accent2><a:srgbClr val="F59E0B"/></a:accent2><a:accent3><a:srgbClr val="94A3B8"/></a:accent3><a:accent4><a:srgbClr val="CBD5E1"/></a:accent4><a:accent5><a:srgbClr val="0F172A"/></a:accent5><a:accent6><a:srgbClr val="64748B"/></a:accent6><a:hlink><a:srgbClr val="1E5BFF"/></a:hlink><a:folHlink><a:srgbClr val="475569"/></a:folHlink></a:clrScheme>
-    <a:fontScheme name="PPT to Editable"><a:majorFont><a:latin typeface="Aptos Display"/><a:ea typeface="Microsoft YaHei"/></a:majorFont><a:minorFont><a:latin typeface="Aptos"/><a:ea typeface="Microsoft YaHei"/></a:minorFont></a:fontScheme>
+    <a:fontScheme name="PPT to Editable"><a:majorFont><a:latin typeface="Aptos Display"/><a:ea typeface="Aptos"/></a:majorFont><a:minorFont><a:latin typeface="Aptos"/><a:ea typeface="Aptos"/></a:minorFont></a:fontScheme>
     <a:fmtScheme name="PPT to Editable"><a:fillStyleLst><a:solidFill><a:schemeClr val="phClr"/></a:solidFill></a:fillStyleLst><a:lnStyleLst><a:ln w="9525"><a:solidFill><a:schemeClr val="phClr"/></a:solidFill></a:ln></a:lnStyleLst><a:effectStyleLst><a:effectStyle><a:effectLst/></a:effectStyle></a:effectStyleLst><a:bgFillStyleLst><a:solidFill><a:schemeClr val="phClr"/></a:solidFill></a:bgFillStyleLst></a:fmtScheme>
   </a:themeElements>
 </a:theme>'''
@@ -167,7 +167,8 @@ def paragraph_xml(text: str, box: dict[str, Any]) -> str:
         line_spacing_xml = f'<a:lnSpc><a:spcPct val="{spacing_pct}"/></a:lnSpc>'
     color = clean_hex(box.get("color"))
     font_face = html.escape(str(box.get("font_face", "Aptos")))
-    east_asian = html.escape(str(box.get("east_asian_font", "Microsoft YaHei")))
+    east_asian = html.escape(str(box.get("east_asian_font", "Aptos")))
+    lang = html.escape(str(box.get("lang", "en-US")))
     bold = bool_attr("b", bool(box.get("bold", False)))
     italic = bool_attr("i", bool(box.get("italic", False)))
     character_spacing = box.get("character_spacing")
@@ -178,14 +179,14 @@ def paragraph_xml(text: str, box: dict[str, Any]) -> str:
     return f'''<a:p>
         <a:pPr algn="{align}">{line_spacing_xml}</a:pPr>
         <a:r>
-          <a:rPr lang="zh-CN" sz="{font_size}"{bold}{italic}{spacing_attr}>
+          <a:rPr lang="{lang}" sz="{font_size}"{bold}{italic}{spacing_attr}>
             <a:solidFill><a:srgbClr val="{color}"/></a:solidFill>
             <a:latin typeface="{font_face}"/>
             <a:ea typeface="{east_asian}"/>
           </a:rPr>
           <a:t>{safe_text}</a:t>
         </a:r>
-        <a:endParaRPr lang="zh-CN" sz="{font_size}"/>
+        <a:endParaRPr lang="{lang}" sz="{font_size}"/>
       </a:p>'''
 
 

@@ -37,7 +37,7 @@ The manifest may set `"units": "normalized"` to use 0-1 coordinates. Prefer inch
           "h": 0.55,
           "font_size": 26,
           "font_face": "Aptos Display",
-          "east_asian_font": "Microsoft YaHei",
+          "east_asian_font": "Aptos",
           "bold": true,
           "color": "111111",
           "align": "left",
@@ -108,7 +108,7 @@ For fitted line-level trace:
 - Preserve line breaks with line-level trace when visual fidelity matters.
 - Avoid tiny type as a solution. If text must drop below a readable minimum, shorten text, split it, or redesign the local region.
 - Use a low-weight source/caveat line if the source slide has one.
-- For short captions, legend labels, badge numbers, and one-line takeaway fragments, prevent single-character orphan wraps. Prefer a slightly wider box, a small readable font reduction, or `no_wrap: true` over letting the last Chinese character or punctuation sit alone on a new line.
+- For short captions, legend labels, badge numbers, and one-line takeaway fragments, prevent single-character orphan wraps. Prefer a slightly wider box, a small readable font reduction, or `no_wrap: true` over letting the last character or punctuation mark sit alone on a new line. Apply this especially strictly for CJK source slides.
 
 ## Role Presets
 
@@ -126,7 +126,7 @@ Start with these role ranges, then fit against OCR bboxes:
 - `takeaway`: 15-21 pt.
 - `source`: 6-8 pt.
 
-For Chinese decks, prefer Microsoft YaHei, DengXian, or Source Han Sans. For English decks, prefer Aptos, Aptos Display, Arial, or Helvetica.
+For English decks, prefer Aptos, Aptos Display, Arial, or Helvetica. For CJK decks, set `east_asian_font` explicitly to an appropriate CJK-capable font such as Microsoft YaHei, DengXian, or Source Han Sans.
 
 ## Line-Level Trace Rules
 
@@ -149,7 +149,7 @@ Patch policy:
 - fix horizontal density third with character spacing;
 - do not use one global font multiplier to fix all lines;
 - do not turn on auto-wrap or auto-fit to hide drift.
-- reject `single-character wrap` when a short label or caption puts one trailing Chinese character or punctuation mark on its own line.
+- reject `single-character wrap` when a short label or caption puts one trailing character or punctuation mark on its own line.
 
 ## QA
 

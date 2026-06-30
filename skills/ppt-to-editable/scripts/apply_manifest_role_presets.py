@@ -9,7 +9,7 @@ from pathlib import Path
 from typing import Any
 
 
-CHINESE_LINE_TRACE: dict[str, dict[str, Any]] = {
+CJK_LINE_TRACE: dict[str, dict[str, Any]] = {
     "title": {"font_size": 29.0, "line_spacing": 1.0},
     "subtitle": {"font_size": 13.5, "line_spacing": 1.0},
     "section": {"font_size": 15.0, "line_spacing": 1.0},
@@ -34,7 +34,7 @@ def main() -> None:
     manifest = json.loads(args.manifest.read_text(encoding="utf-8-sig"))
     manifest["notes"] = (
         str(manifest.get("notes", "")).rstrip()
-        + " Applies Chinese line-trace role presets for stable alignment."
+        + " Applies CJK line-trace role presets for stable alignment."
     ).strip()
     manifest["phase"] = "ppt-to-editable-role-presets"
     manifest["route"] = "clean-background-line-trace"
@@ -42,7 +42,7 @@ def main() -> None:
     for slide in manifest.get("slides", []):
         for box in slide.get("text_boxes", []):
             role = str(box.get("role", ""))
-            preset = CHINESE_LINE_TRACE.get(role)
+            preset = CJK_LINE_TRACE.get(role)
             if preset:
                 box.update(preset)
             box.setdefault("alignment_status", "calibrated")

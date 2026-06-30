@@ -30,7 +30,7 @@ Each OCR record should include:
 }
 ```
 
-Chinese-capable OCR is required for Chinese source images. Keep confidence scores and raw OCR text. Do not silently rewrite uncertain text; mark it as `needs_review`.
+CJK-capable OCR is required for CJK source images. Keep confidence scores and raw OCR text. Do not silently rewrite uncertain text; mark it as `needs_review`.
 
 If no OCR engine is available, stop before attempting high-fidelity source-image conversion. A manual transcript is acceptable only for a rough smoke test.
 
