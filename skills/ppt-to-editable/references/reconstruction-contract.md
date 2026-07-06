@@ -4,7 +4,7 @@ Use this reference when the output mode is `reconstruction`.
 
 Reconstruction creates a layered editable PPTX from a source slide image. It is not full-native redrawing and not a full-slide background trick.
 
-Prefer this mode for structured business slides: cards, tables, grids, repeated modules, product pills, numbered steps, timelines, lanes, process diagrams, decision matrices, and pages where most objects are simple shapes and editable text. For manually split or experimental multi-page inputs, choose this per slide with `references/deck-routing-and-qa.md` instead of forcing every slide through clean-background hybrid.
+Prefer this mode for structured business slides: cards, tables, grids, repeated modules, product pills, numbered steps, timelines, lanes, process diagrams, decision matrices, and pages where most objects are simple shapes and editable text. For deck inputs, choose this per slide with `references/deck-routing-and-qa.md` instead of forcing every slide through clean-background hybrid.
 
 ## Principle
 
@@ -22,6 +22,7 @@ Use tight source-image crops for:
 
 - photos, product screenshots, illustrations, detailed icons;
 - gradient funnels, beams, translucent paths, shadows, texture, particles;
+- shaded circular icon badges, complex icon glyphs, gradient pills, arrow-ended bands, and source-specific bar backgrounds;
 - complex curved connectors or convergence arrows where native lines would drift;
 - dense charts or diagrams whose data cannot be reconstructed reliably.
 
@@ -35,6 +36,10 @@ Crop rules:
 - place path crops under native cards, endpoint circles, labels, and target rings when native objects should cover crop residue.
 
 Known limitation: PowerPoint image selection boxes remain rectangular even for transparent PNGs. The contract is a tight enough selection box, not invisible selection bounds.
+
+For repeated icon rows, crop icons from the original source image with consistent square crop sizes when modules are visually same-size. Align the placed crops by measured center points, not by ad hoc left edges. Keep a debug sheet of the extracted icons for QA.
+
+For gradient or arrow-ended text bars, use a tight source crop for the bar background when native rounded rectangles would shift, flatten gradients, or lose arrow geometry. Remove the source text from the bar crop first, then overlay reviewed native editable text. If text removal leaves visible residue, the crop is not ready.
 
 ## Native Shape Layer
 
@@ -53,6 +58,8 @@ Composite objects such as numbered badges should usually become a native circle/
 
 Avoid over-native reconstruction. If the native redraw visibly changes a complex proof object, use a source crop.
 
+Do not treat native object count as the primary quality metric. A lower native shape count is acceptable when detailed icons, shaded badges, or gradient bars are preserved as tight source crops and the readable text remains native editable text.
+
 ## Editable Text Layer
 
 Run OCR before rebuilding text.
@@ -65,15 +72,23 @@ Text reconstruction should preserve:
 - text color, boldness, hierarchy, and alignment;
 - Chinese punctuation and terminology.
 
-Default to line-level trace:
+Default to conservative semantic grouping:
+
+- merge adjacent lines into one text box only when they share font face, font size, bold/italic state, color, alignment, column/region, and tight vertical spacing;
+- keep the original line breaks inside that one text box;
+- set `trace_level: "paragraph"` and `semantic_block: true`;
+- include `source_line_bboxes_px` or `source_element_ids` so the grouped block remains auditable.
+
+Use line-level trace when the text is a label, caption, legend, axis label, badge number, step number, table cell, one-line callout, mixed-style phrase, or when separate boxes are needed for visual placement:
 
 - one text box per accepted OCR line;
 - `trace_level: "line"`;
+- `semantic_block: false`;
 - `no_wrap: true`;
 - OCR `source_bbox_px`;
 - per-line font fitting before character spacing.
 
-Use paragraph groups only when the user explicitly prioritizes editing convenience over visual matching.
+Do not merge across different font sizes, weights, colors, alignments, columns, table cells, labels, or visual regions. If a line-level split is intentional for text that otherwise looks mergeable, record `line_level_trace_required: true`, `do_not_merge: true`, or a clear line-level role.
 
 ## Workflow
 
@@ -100,6 +115,7 @@ Text elements should include OCR provenance:
 - `ocr_confidence`;
 - `source_bbox_px`;
 - `source_line_bboxes_px` for paragraph groups;
+- `source_element_ids` when a paragraph group was merged from reviewed line elements;
 - `trace_level`;
 - `no_wrap`;
 - `review_status`;
@@ -182,6 +198,7 @@ Accept reconstruction only if:
 - raw OCR was reviewed before becoming editable text;
 - simple cards, circles, badges, arrows, panels, divider lines, and dashed guides are native when practical;
 - complex visuals are source-derived tight crops, not approximate redraws;
+- complex icon and gradient bar regions are not redrawn as generic symbols or flat rounded rectangles when that changes the source style;
 - no full-slide background is used to fake reconstruction unless explicitly accepted as a fallback;
 - dashed guides are native dashed lines;
 - crop boxes are tight enough for practical editing;
@@ -191,6 +208,10 @@ Accept reconstruction only if:
 
 - `full-slide background disguised as reconstruction`
 - `complex visual approximate redraw`
+- `complex icon approximate redraw`
+- `gradient bar native drift`
+- `source crop text residue`
+- `icon grid uneven spacing`
 - `oversized crop selection box`
 - `shared connector crop conflict`
 - `path crop layered above native shapes`

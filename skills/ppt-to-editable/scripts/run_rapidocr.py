@@ -68,7 +68,17 @@ def main() -> None:
     args = parser.parse_args()
 
     add_local_deps(args.deps)
-    from rapidocr_onnxruntime import RapidOCR
+    try:
+        from rapidocr_onnxruntime import RapidOCR
+    except Exception as exc:
+        diagnostic = {
+            "status": "ocr_runtime_import_failed",
+            "error_type": type(exc).__name__,
+            "error": str(exc),
+            "hint": "Run scripts/preflight_ocr_runtime.py --out path\\to\\ocr_runtime_report.json before OCR.",
+        }
+        print(json.dumps(diagnostic, ensure_ascii=False), file=sys.stderr)
+        raise
 
     ocr = RapidOCR()
     raw_result, elapsed = ocr(str(args.source))

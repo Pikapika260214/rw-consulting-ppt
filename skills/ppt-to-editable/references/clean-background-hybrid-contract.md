@@ -4,7 +4,7 @@ Use this reference when the output mode is `clean-background`.
 
 This mode turns a source image slide into a PowerPoint slide with a clean/textless background and editable text boxes. It is useful only when the old visible source text is removed or regenerated away; a visible overlay on top of old source text is not an acceptable final output.
 
-Do not use this mode as the default for a multi-page source. For manually split or experimental multi-page inputs, first route each slide with `references/deck-routing-and-qa.md`. Structured pages dominated by simple cards, rows, product pills, tables, process steps, and native-friendly lines should usually be routed to reconstruction instead.
+Do not use this mode as the default for a whole deck. For multi-slide inputs, first route each slide with `references/deck-routing-and-qa.md`. Structured pages dominated by simple cards, rows, product pills, tables, process steps, and native-friendly lines should usually be routed to reconstruction instead.
 
 ## Output Contract
 
@@ -28,7 +28,7 @@ Not allowed in the background:
 1. Save the source image unchanged.
 2. Run OCR and save `ocr_results.json`.
 3. Create `ocr_overlay_debug.png` when practical.
-4. Create `ocr_review_manifest.json`; do not send raw OCR directly to the final PPTX.
+4. Create `ocr_review_manifest.json`; do not send raw OCR directly to the final deck.
 5. Build a text removal mask from accepted/corrected OCR bboxes and manually marked OCR misses only.
 6. Classify text regions before removal: dark text, light text on dark header, colored labels, composite badges, complex visual text.
 7. Remove source text locally and save `text_mask_debug.png`.
@@ -55,7 +55,9 @@ Repeated modules require instance-level geometry. Do not copy coordinates from a
 
 ## Text Placement
 
-Default to line-level trace:
+Default to conservative semantic grouping for body, callout, bullet, and explanatory text when adjacent lines share font face, font size, bold/italic state, color, alignment, local region, and tight vertical spacing. Use one editable multiline text box with preserved hard line breaks, `trace_level: "paragraph_group"`, `semantic_block: true`, and `source_line_bboxes_px` or `source_element_ids`.
+
+Use line-level trace for labels, captions, legends, axis labels, badge numbers, step labels, table cells, one-line callouts, mixed-style phrases, and text whose visual placement requires separate boxes:
 
 - one editable text box per visible OCR line;
 - `trace_level: "line"`;
@@ -64,7 +66,7 @@ Default to line-level trace:
 - OCR confidence and review status;
 - no PowerPoint auto-fit.
 
-Use paragraph groups only when the user prioritizes easier paragraph editing. If the preview drifts, switch back to line-level trace.
+Do not merge across different fonts, font sizes, weights, colors, alignments, columns, table cells, labels, or visual regions. If same-style adjacent line boxes intentionally remain separate, mark them with `line_level_trace_required: true`, `do_not_merge: true`, or a clear line-level role.
 
 ## Manifest Rules
 

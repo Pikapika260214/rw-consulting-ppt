@@ -58,9 +58,22 @@ Repeated elements must be measured per instance. Use OCR boxes, connected compon
 
 Use OCR bboxes as the first placement source.
 
+### Conservative Semantic Grouping
+
+Use by default for body, callout, bullet, and explanatory text when adjacent OCR lines share font face, font size, bold/italic state, color, alignment, column/region, and tight vertical spacing:
+
+- one editable text box per semantic multiline block;
+- preserve explicit hard line breaks in the text;
+- `trace_level: "paragraph"` or `"paragraph_group"`;
+- `semantic_block: true`;
+- `source_line_bboxes_px` or `source_element_ids`;
+- disable auto-fit and inspect rendered line breaks.
+
+Do not merge across different styles, columns, table cells, labels, icons, dividers, or visual regions.
+
 ### Fidelity Mode: Line-Level Trace
 
-Use by default when visual matching matters:
+Use line-level trace when text is a label, caption, legend, axis label, badge number, step label, table cell, one-line callout, mixed-style phrase, or when visual placement clearly requires separate boxes:
 
 - one editable text box per visible OCR line;
 - `trace_level: "line"`;
@@ -70,19 +83,7 @@ Use by default when visual matching matters:
 - no-wrap width fitting with role-specific minimum font sizes;
 - bounded `character_spacing` only after font height is acceptable.
 
-This avoids PowerPoint auto-wrap and preserves source line breaks.
-
-### Editability Mode: Paragraph Groups
-
-Use only when the user cares more about editing paragraphs as units:
-
-- group OCR lines into paragraph text boxes;
-- preserve explicit hard line breaks;
-- keep `source_line_bboxes_px`;
-- disable auto-fit;
-- label any visible line-break drift in the report.
-
-If paragraph mode drifts too much, switch to line-level trace.
+This avoids PowerPoint auto-wrap for source labels and preserves precise placement where one text box per line is actually required. If same-style adjacent line boxes are intentionally not grouped, mark them with `line_level_trace_required: true`, `do_not_merge: true`, or a clear line-level role.
 
 ## QA Checks
 
@@ -93,6 +94,7 @@ Before packaging:
 - the clean background has no readable source text residue;
 - overlay preview aligns with source layout;
 - per-line alignment failures are recorded with suggested patches;
+- `candidate_multiline_split` warnings are resolved by merging same-style semantic lines or marking line-level intent;
 - the final report separates OCR errors, text-removal defects, and PowerPoint rendering drift.
 
 ## Failure Labels

@@ -3,9 +3,9 @@
 这个仓库包含两个互相独立的 Codex Skills：
 
 - `rw-consulting-ppt`：把行业报告、会议纪要、访谈笔记和半成品 bullet，转成 `proof-object-first` 的图片版咨询 PPT。
-- `ppt-to-editable`：把单张 slide 图片、PNG/JPG 或截图转换成单页可编辑 PPTX。
+- `ppt-to-editable`：把单张 slide 图片、PNG/JPG、截图，或 image-only PPTX 转换成更可编辑的 PowerPoint。
 
-两者平级放在 `skills/` 目录下，需要分别安装、分别触发，互不覆盖。`rw-consulting-ppt` 默认交付 PNG + `image-only PPTX`；如果少数关键页面需要后续编辑，可以再用 `ppt-to-editable` 逐页转换。
+两者平级放在 `skills/` 目录下，需要分别安装、分别触发，互不覆盖。`rw-consulting-ppt` 默认交付 PNG + `image-only PPTX`；如果需要后续编辑，可以再用 `ppt-to-editable` 转换单页，或用多页多 Agent 高质量模式转换整份 image-only PPTX。
 
 ![RW Consulting PPT 工作流](skills/rw-consulting-ppt/assets/readme-hero.png)
 
@@ -66,6 +66,18 @@ cp -R ./skills/rw-consulting-ppt/. ~/.codex/skills/rw-consulting-ppt/
 cp -R ./skills/ppt-to-editable/. ~/.codex/skills/ppt-to-editable/
 ```
 
+如果你已经安装过旧版 `ppt-to-editable`，并且只想单独升级这个 skill，可以把下面这段 prompt 发给 Codex：
+
+```text
+请从这个 GitHub 仓库只安装 / 更新 ppt-to-editable skill：
+https://github.com/Pikapika260214/rw-consulting-ppt
+
+请只使用仓库里的 skills/ppt-to-editable 目录。
+不要覆盖或重新安装 rw-consulting-ppt。
+请把它安装到我的 Codex skills 目录里的 ppt-to-editable 文件夹，并保持 skill 名称仍然是 ppt-to-editable。
+安装后请帮我检查 SKILL.md，确认这是 v3 Two-Mode Preview，并告诉我是否更新成功。
+```
+
 然后在 Codex 里这样触发：
 
 生成图片版咨询 deck：
@@ -80,16 +92,25 @@ cp -R ./skills/ppt-to-editable/. ~/.codex/skills/ppt-to-editable/
 输出格式：PNG + image-only PPTX
 ```
 
-转换单张图片为 editable PPTX：
+转换单张图片或 image-only PPTX 为 editable PPTX：
 
 ```text
-请使用 ppt-to-editable，把这张单页 slide 图片转换成单页可编辑 PPTX。
+请使用 ppt-to-editable，把这张单页 slide 图片转换成更可编辑的 PowerPoint。
+我想使用单页省 token 模式。
 
 输入：我上传的 PNG / JPG / 截图图片
 目标：尽量恢复可编辑文字和简单原生形状，同时保持原图版式
 路线：先 OCR 和 OCR review，再判断 clean-background、hybrid 或 reconstruction
 约束：不要做可见文字覆盖；不要额外添加 PowerPoint 阴影、发光、浮雕、反射等效果
 交付：editable PPTX + editability_report.json
+```
+
+如果要转换整份 image-only PPTX：
+
+```text
+请使用 ppt-to-editable，把这份 image-only PPTX 转成更可编辑的 PowerPoint deck。
+我想使用多页多 Agent 高质量模式。
+我知道这个模式非常消耗 token，建议仅限 Codex Pro 订阅用户使用。
 ```
 
 ## 适合什么场景？
@@ -139,34 +160,34 @@ cp -R ./skills/ppt-to-editable/. ~/.codex/skills/ppt-to-editable/
 - Python / Pillow / SVG / canvas 绘制的伪 PPT；
 - 普通模板套壳或三栏卡片堆叠。
 
-如果你已经有一张成品 slide 图片，并希望恢复部分编辑能力，可以使用同仓库的 `ppt-to-editable`。两个 skill 的分工是：`rw-consulting-ppt` 先把复杂业务材料变成咨询级图片页；`ppt-to-editable` 再对选中的单张图片页做可编辑化转换。
+如果你已经有成品 slide 图片或 image-only PPTX，并希望恢复部分编辑能力，可以使用同仓库的 `ppt-to-editable`。两个 skill 的分工是：`rw-consulting-ppt` 先把复杂业务材料变成咨询级图片页；`ppt-to-editable` 再把单页图片或整份 image-only PPTX 转成更可编辑的 PowerPoint。
 
 ## 同仓库的另一个 Skill：ppt-to-editable
 
-`ppt-to-editable` 当前支持：将单张图片输入转换为单页可编辑 PPTX。
+`ppt-to-editable` 当前是 v3 Two-Mode Preview，支持两种入口：
 
-它适合已经有一张成品 slide 图片，但希望恢复一部分可编辑能力的场景。当前公开稳定能力聚焦在“单张图片输入”，而不是限制图片来源：
+- 单页省 token 模式：适合单张 PNG、JPG、截图，或只想先测试 PPTX 的其中一页。
+- 多页多 Agent 高质量模式：适合整份 image-only `.pptx` 转 editable deck，质量优先，但非常消耗 token，建议仅限 Codex Pro 订阅用户使用。
 
-- 单页 PNG slide；
-- 单张截图导出的 PNG / JPG；
-- 其他单张 16:9 slide image。
+多页顺序省 token 模式已经下线，不作为公开能力提供。它更省 token，但质量不稳定。
 
-当前输出是一页 editable PPTX，核心能力包括：
+核心能力包括：
 
 - OCR 辅助文字恢复；
 - `clean-background + editable text`；
 - 对结构简单的页面，可使用 `hybrid / reconstruction` 重建部分原生对象；
+- 对复杂图标、照片、曲线路径、渐变箭头等高风险视觉，优先使用紧裁剪 crop 或 textless crop，不强行原生重画；
+- 多页 image-only PPTX 可按页拆分，交给独立 worker 处理，再组装成 final deck；
 - 输出 `editability_report.json`，用于验证文字框、原生形状、图片裁剪等结构；
 - 默认不额外添加 PowerPoint 阴影、发光、浮雕、反射等效果，除非原图明确需要复刻。
 
-它不是从材料生成 deck 的工具，也不承诺任意图片都能全对象原生重建。当前重点不是限制图片来源，而是限制输入粒度：只承诺单张图片到单页 editable PPTX；多页 PDF、PPTX 或 deck 需要先拆成单张图片后逐页处理。
+它不是从材料生成 deck 的工具，也不承诺任意图片都能全对象原生重建。实际可编辑范围以 `editability_report.json` 和最终 PPTX 为准。
 
 以下能力目前不作为公开稳定能力承诺：
 
 - PDF 多页自动拆页输入；
-- image-only PPTX 自动拆页输入；
-- 多页 deck 自动路由与组装；
-- 批量页面一致性处理；
+- 非 image-only 的复杂原生 PPTX 自动结构迁移；
+- 低 token 的整份 PPTX 顺序批处理；
 - 任意页面的 fully native all-object reconstruction。
 
 ## 工作流
@@ -233,9 +254,9 @@ cp -R ./skills/ppt-to-editable/. ~/.codex/skills/ppt-to-editable/
 
 ### 7. Selective editable conversion
 
-如果某些页面需要后续频繁改字、改数字、改标签、改表格，可以从最终 PNG 中选取少数关键页面，交给 `ppt-to-editable` 逐页转换成单页 editable PPTX。
+如果某些页面需要后续频繁改字、改数字、改标签、改表格，可以从最终 PNG 中选取少数关键页面，交给 `ppt-to-editable` 用单页省 token 模式转换。
 
-这一步是可选的关键页转换，不是整套 deck 自动全量可编辑化。每张图片仍按 `ppt-to-editable` 的稳定能力独立处理：单张图片输入，输出单页 editable PPTX，并附带 `editability_report.json` 说明可编辑文本、原生形状、原生表格、图片裁剪和限制。
+如果需要把整份 image-only PPTX 转成更可编辑的 deck，可以选择多页多 Agent 高质量模式。这个模式会按页拆分、独立转换、再组装 final deck，质量更稳，但非常消耗 token，建议仅限 Codex Pro 订阅用户使用。
 
 ## 输出物
 
@@ -263,6 +284,25 @@ editable-pages/
 ```
 
 这些 editable PPTX 只覆盖被选中的单页图片。实际可编辑范围以对应的 `editability_report.json` 为准。
+
+如果使用 `ppt-to-editable` 的多页多 Agent 高质量模式，输出通常包含：
+
+```text
+runs/my-deck/
+  source_slides/
+    slide_01.png
+    slide_02.png
+    ...
+  slide_jobs/
+    slide_01/
+    slide_02/
+    ...
+  output/
+    final-deck.pptx
+    deck-level-qa-report.json
+```
+
+多页输出是一份整合后的 editable deck；每页的可编辑范围可能不同，仍以对应页面的 editability report 和 deck-level QA report 为准。
 
 ## 质量护栏
 
@@ -360,10 +400,11 @@ editable-pages/
 不要直接生成图片，先给我 deck blueprint。
 ```
 
-### 单张 slide 图片转 editable PPTX
+### 单页省 token 模式
 
 ```text
-请使用 ppt-to-editable，把我上传的这张单页 slide 图片转换成单页 editable PPTX。
+请使用 ppt-to-editable，把我上传的这张单页 slide 图片转换成更可编辑的 PowerPoint。
+我想使用单页省 token 模式。
 
 当前输入：单张 PNG / JPG / 截图图片
 优先目标：让标题、正文、标签、数字等主要文字可编辑
@@ -371,6 +412,16 @@ editable-pages/
 处理路线：请先 OCR，保存 OCR 结果和 review；如果页面结构由卡片、表格、行列、流程、图标容器或简单线条组成，优先考虑 hybrid / reconstruction；复杂图片、照片、纹理或细节图标可以保留为紧裁剪图片
 样式约束：默认使用扁平 PowerPoint 对象，不要额外添加阴影、发光、浮雕、反射、柔边或主题效果，除非原图明确有这个效果
 交付物：单页 editable PPTX、预览图、editability_report.json，并说明哪些元素可编辑、哪些元素仍是图片裁剪
+```
+
+### 多页多 Agent 高质量模式
+
+```text
+请使用 ppt-to-editable，把这份 image-only PPTX 转成更可编辑的 PowerPoint deck。
+我想使用多页多 Agent 高质量模式。
+我知道这个模式非常消耗 token，建议仅限 Codex Pro 订阅用户使用。
+
+请先做 OCR / 页面范围 / token 消耗确认，不要在我确认前直接转换全部页面。
 ```
 
 ### 结构化页面优先 reconstruction
@@ -409,6 +460,7 @@ rw-consulting-ppt/
       agents/
       references/
       scripts/
+      tests/
 ```
 
 ## FAQ
@@ -417,14 +469,19 @@ rw-consulting-ppt/
 
 因为 `rw-consulting-ppt` 的核心不是从材料直接生成原生 PPT 组件，而是让 AI 先生成完整的咨询页图像。它优先保证咨询页的视觉完整度、信息密度和表达质量。
 
-如果你已经有一张成品图片，并希望恢复部分编辑能力，可以使用同仓库的 `ppt-to-editable`。目前 `ppt-to-editable` 聚焦单张图片到单页 editable PPTX，不承诺多页 deck 自动转换或任意页面的全对象原生重建。
+如果你已经有一张成品图片，并希望恢复部分编辑能力，可以使用同仓库的 `ppt-to-editable` 单页省 token 模式。
+
+如果你已经有一份 image-only PPTX，并希望整份 deck 尽量可编辑，可以使用 `ppt-to-editable` 多页多 Agent 高质量模式。这个模式质量优先，但非常消耗 token，建议仅限 Codex Pro 订阅用户使用。
+
+无论哪种模式，`ppt-to-editable` 都不承诺任意页面的全对象原生重建。复杂视觉会优先保留为紧裁剪图片或 textless crop，主要文字尽量恢复为可编辑文本。
 
 ### 生成的 PPTX 还能修改吗？
 
 分两种情况：
 
 - `rw-consulting-ppt` 默认生成的是 `image-only PPTX`：每页是一张完整图片，可以整体移动、替换、插入，但不能逐字编辑文本。
-- 如果你把某些关键页面再交给 `ppt-to-editable` 转换，那么这些页面会变成单页 editable PPTX；其中被恢复为 PowerPoint 文本框、原生形状、原生表格的部分可以修改，仍作为图片裁剪保留的复杂视觉元素不能逐对象编辑。
+- 如果你把某些关键页面再交给 `ppt-to-editable` 单页模式转换，那么这些页面会变成单页 editable PPTX；其中被恢复为 PowerPoint 文本框、原生形状、原生表格的部分可以修改，仍作为图片裁剪保留的复杂视觉元素不能逐对象编辑。
+- 如果你把整份 image-only PPTX 交给 `ppt-to-editable` 多页多 Agent 高质量模式，它会生成一份 final deck；不同页面的可编辑范围可能不同。
 
 实际可编辑范围以 `editability_report.json` 为准。需要改大段内容时，通常仍建议回到 slide brief 或 prompt 层重生成；需要小范围改字、改数字、改标签时，适合使用 `ppt-to-editable`。
 

@@ -1,0 +1,8 @@
+python-pptx>=1.0.2
+Pillow>=10
+rapidocr_onnxruntime==1.4.4
+onnxruntime
+numpy<2
+shapely
+opencv-python-headless
+pyclipper

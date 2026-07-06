@@ -1,12 +1,12 @@
-# Experimental Multi-page Routing And QA
+# Deck Routing And QA
 
-Use this reference only for manually split multi-page sources, experimental deck conversion work, or any single slide where the best output mode is not obvious. The public stable scope remains single image input to single-slide editable PPTX output.
+Use this reference for multi-slide PPTX/PDF inputs and for any slide where the best output mode is not obvious.
 
 The goal is not to maximize editable text box count. The goal is to choose the right conversion method per slide and reject OCR or mode choices that make the slide visually worse.
 
-## Experimental Multi-page Workflow
+## Deck Workflow
 
-Treat a multi-page source as a set of independent slide jobs, not one stable automatic batch job.
+Treat a deck as a set of slide jobs, not one batch job.
 
 1. Extract each source slide/page to an unchanged PNG.
 2. Create a per-slide run folder with source image, OCR artifacts, review manifest, selected mode, preview, and QA report.
@@ -14,13 +14,13 @@ Treat a multi-page source as a set of independent slide jobs, not one stable aut
 4. Build `ocr_review_manifest.json` before creating final text boxes.
 5. Route each slide independently to `clean-background`, `reconstruction`, or mixed reconstruction.
 6. Preview and QA each slide before deck assembly.
-7. Assemble reviewed slide outputs only when the user explicitly accepts the experimental multi-page limitation.
+7. Assemble only reviewed slide outputs into the final PPTX.
 
-Do not use one global route across a multi-page source unless the user explicitly asks for that limitation.
+Do not use one global route across a whole deck unless the user explicitly asks for that limitation.
 
 ## Default Policy
 
-For structured business slides, reconstruction is the default. Clean-background is allowed for complex visual pages, but it must not become the default route for pages that are mostly editable structure.
+For structured business slides, reconstruction is the default. Clean-background is allowed for complex visual pages, but it must not become the default deck-wide route for pages that are mostly editable structure.
 
 If a slide is reconstruction-friendly and no reconstruction implementation exists yet, stop at `requires_reconstruction_plan` rather than silently shipping a hybrid output. A hybrid PPTX can be useful as an interim baseline, but it must be labeled as such and must not be described as a reconstruction deliverable unless the user explicitly accepts the fallback.
 
@@ -124,7 +124,7 @@ For each slide, inspect a composite preview and record:
 - color/style mismatch that changes meaning;
 - native shape drift or crop boxes that are too large.
 
-For experimental multi-page outputs, summarize per slide:
+For deck outputs, summarize per-slide:
 
 - selected mode;
 - accepted OCR count;
@@ -135,7 +135,7 @@ For experimental multi-page outputs, summarize per slide:
 
 ## Acceptance Policy
 
-Accept an experimental multi-page conversion only when:
+Accept a deck conversion only when:
 
 - each slide has a selected mode and QA report;
 - every final editable text box comes from accepted/corrected OCR or an explicitly reviewed manual text source;

@@ -9,6 +9,15 @@ desktop.ini
 *.tmp
 *.log
 
+# Local runtimes and conversion outputs
+.venv*/
+.ocr-check/
+ocr_runtime_check/
+runs/
+slide_jobs/
+worker_logs/
+*.jsonl
+
 # Keep the public repository lightweight. Full generated decks and raw source
 # documents should live in releases or private archives, not the main repo.
 *.pptx

@@ -18,7 +18,7 @@ The manifest may set `"units": "normalized"` to use 0-1 coordinates. Prefer inch
 
 ```json
 {
-  "title": "Example editable slide",
+  "title": "Example editable deck",
   "slide_size": { "width": 13.333, "height": 7.5 },
   "units": "inches",
   "slides": [
@@ -89,6 +89,7 @@ For image-source conversion:
 For paragraph groups:
 
 - `source_line_bboxes_px`;
+- `source_element_ids` when grouped from reviewed line boxes;
 - explicit `\n` line breaks in `text`;
 - `trace_level: "paragraph_group"`.
 
@@ -105,7 +106,9 @@ For fitted line-level trace:
 - Do not use one text box for mixed-style content. Split red headers, black body copy, numbers, and source notes.
 - Do not use text boxes to redraw charts, tables, lines, or icons.
 - Keep title and subtitle boxes generous enough for the source text.
-- Preserve line breaks with line-level trace when visual fidelity matters.
+- Preserve same-style semantic multiline text as one text box when font face, size, weight, color, alignment, local region, and spacing match.
+- Preserve line breaks with line-level trace when text is a label, caption, legend, axis label, badge number, step label, table cell, one-line callout, mixed-style phrase, or when visual placement clearly requires separate boxes.
+- If same-style adjacent lines are intentionally not grouped, mark them with `line_level_trace_required: true`, `do_not_merge: true`, `preserve_line_level: true`, or a clear line-level role.
 - Avoid tiny type as a solution. If text must drop below a readable minimum, shorten text, split it, or redesign the local region.
 - Use a low-weight source/caveat line if the source slide has one.
 - For short captions, legend labels, badge numbers, and one-line takeaway fragments, prevent single-character orphan wraps. Prefer a slightly wider box, a small readable font reduction, or `no_wrap: true` over letting the last Chinese character or punctuation sit alone on a new line.

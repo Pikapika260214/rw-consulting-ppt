@@ -45,6 +45,8 @@ def inspect_pptx(path: Path) -> dict[str, Any]:
             "autoWrapTextBodies": 0,
             "noAutofitTextBodies": 0,
             "autofitTextBodies": 0,
+            "nativeArrowLines": 0,
+            "nativeArrowheads": 0,
             "nativeDashedLines": 0,
         }
         for idx, name in enumerate(slide_names, start=1):
@@ -62,6 +64,12 @@ def inspect_pptx(path: Path) -> dict[str, Any]:
             auto_wrap = xml.count('wrap="square"') + xml.count('wrap="1"')
             no_autofit = xml.count("<a:noAutofit")
             autofit = xml.count("<a:spAutoFit") + xml.count("<a:normAutofit")
+            arrowheads = xml.count("<a:headEnd") + xml.count("<a:tailEnd")
+            arrow_lines = sum(
+                1
+                for block in re.findall(r"<p:cxnSp>.*?</p:cxnSp>", xml, flags=re.DOTALL)
+                if "<a:headEnd" in block or "<a:tailEnd" in block
+            )
             dashed = len(re.findall(r"<a:prstDash\b(?![^>]*val=\"solid\")", xml))
             pic_blocks = re.findall(r"<p:pic>.*?</p:pic>", xml, flags=re.DOTALL)
             full_slide_pictures = sum(
@@ -82,6 +90,8 @@ def inspect_pptx(path: Path) -> dict[str, Any]:
                 "autoWrapTextBodies": auto_wrap,
                 "noAutofitTextBodies": no_autofit,
                 "autofitTextBodies": autofit,
+                "nativeArrowLines": arrow_lines,
+                "nativeArrowheads": arrowheads,
                 "nativeDashedLines": dashed,
             }
             slides.append(slide_report)
