@@ -110,7 +110,6 @@ https://github.com/Pikapika260214/rw-consulting-ppt
 ```text
 请使用 ppt-to-editable，把这份 image-only PPTX 转成更可编辑的 PowerPoint deck。
 我想使用多页多 Agent 高质量模式。
-我知道这个模式非常消耗 token，建议仅限 Codex Pro 订阅用户使用。
 ```
 
 ## 适合什么场景？
@@ -167,9 +166,7 @@ https://github.com/Pikapika260214/rw-consulting-ppt
 `ppt-to-editable` 当前是 v3 Two-Mode Preview，支持两种入口：
 
 - 单页省 token 模式：适合单张 PNG、JPG、截图，或只想先测试 PPTX 的其中一页。
-- 多页多 Agent 高质量模式：适合整份 image-only `.pptx` 转 editable deck，质量优先，但非常消耗 token，建议仅限 Codex Pro 订阅用户使用。
-
-多页顺序省 token 模式已经下线，不作为公开能力提供。它更省 token，但质量不稳定。
+- 多页多 Agent 高质量模式：适合整份 image-only `.pptx` 转 editable deck，质量优先，token 消耗较高。
 
 核心能力包括：
 
@@ -256,7 +253,7 @@ https://github.com/Pikapika260214/rw-consulting-ppt
 
 如果某些页面需要后续频繁改字、改数字、改标签、改表格，可以从最终 PNG 中选取少数关键页面，交给 `ppt-to-editable` 用单页省 token 模式转换。
 
-如果需要把整份 image-only PPTX 转成更可编辑的 deck，可以选择多页多 Agent 高质量模式。这个模式会按页拆分、独立转换、再组装 final deck，质量更稳，但非常消耗 token，建议仅限 Codex Pro 订阅用户使用。
+如果需要把整份 image-only PPTX 转成更可编辑的 deck，可以选择多页多 Agent 高质量模式。这个模式会按页拆分、独立转换、再组装 final deck，质量更稳，但 token 消耗较高。
 
 ## 输出物
 
@@ -419,8 +416,6 @@ runs/my-deck/
 ```text
 请使用 ppt-to-editable，把这份 image-only PPTX 转成更可编辑的 PowerPoint deck。
 我想使用多页多 Agent 高质量模式。
-我知道这个模式非常消耗 token，建议仅限 Codex Pro 订阅用户使用。
-
 请先做 OCR / 页面范围 / token 消耗确认，不要在我确认前直接转换全部页面。
 ```
 
@@ -471,7 +466,7 @@ rw-consulting-ppt/
 
 如果你已经有一张成品图片，并希望恢复部分编辑能力，可以使用同仓库的 `ppt-to-editable` 单页省 token 模式。
 
-如果你已经有一份 image-only PPTX，并希望整份 deck 尽量可编辑，可以使用 `ppt-to-editable` 多页多 Agent 高质量模式。这个模式质量优先，但非常消耗 token，建议仅限 Codex Pro 订阅用户使用。
+如果你已经有一份 image-only PPTX，并希望整份 deck 尽量可编辑，可以使用 `ppt-to-editable` 多页多 Agent 高质量模式。这个模式质量优先，token 消耗较高。
 
 无论哪种模式，`ppt-to-editable` 都不承诺任意页面的全对象原生重建。复杂视觉会优先保留为紧裁剪图片或 textless crop，主要文字尽量恢复为可编辑文本。
 

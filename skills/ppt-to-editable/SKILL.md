@@ -53,13 +53,12 @@ Before asking about workers or page scope, give the user the two product modes:
 结果：输出一页可编辑 PPT。
 
 2. 多页多 Agent 高质量模式
-适合：你想转换整份 PPTX、质量优先，并且你能接受非常高的 token 消耗。
-建议：仅限 Codex Pro 订阅用户使用。
-消耗：非常高；每页会交给独立转换任务处理。
+适合：你想转换整份 PPTX、质量优先，并且你能接受较高的 token 消耗。
+消耗：较高；每页会交给独立转换任务处理。
 结果：输出完整可编辑 PPT；失败页会保留原图并加提示。
 
 如果你更想省 token，建议先选单页省 token 模式。
-如果要转换整份 PPTX，则使用多页多 Agent 高质量模式；它非常消耗 token，建议仅限 Codex Pro 订阅用户使用。
+如果要转换整份 PPTX，则使用多页多 Agent 高质量模式；页数越多，token 消耗越高。
 
 请告诉我你的选择。
 ```
@@ -112,8 +111,7 @@ If `conversion_mode_gate.user_choice` is `multi-agent-high-quality`, ask one com
 2. 只转换指定页
 3. 先转换 1 页看看效果
 
-说明：转换页数越多，消耗的 token 越多；多页多 Agent 高质量模式非常消耗 token，建议仅限 Codex Pro 订阅用户使用。
-如果你选择“多页多 Agent 高质量模式”，我会把每一页交给独立转换任务处理，质量检查更独立，但 token 消耗更高。
+说明：转换页数越多，消耗的 token 越多；多页多 Agent 高质量模式会把每一页交给独立转换任务处理，质量检查更独立，但 token 消耗更高。
 
 请告诉我你的选择。
 ```

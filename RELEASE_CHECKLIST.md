@@ -11,8 +11,8 @@
 - [ ] README 和 `UPGRADE.md` 都包含老用户单独升级 `ppt-to-editable` 的可复制 prompt。
 - [ ] README 和 `SKILL.md` 已说明转换前预检流程：`--probe`、Conversion Mode Gate、OCR Runtime Gate、Scope + Worker Gate、`gates.json`。
 - [ ] Conversion Mode Gate 的用户提问使用普通语言说明“单页省 token 模式”和“多页多 Agent 高质量模式”，并保留单张 PNG / 单页 sample 的低 token 入口。
-- [ ] 多页多 Agent 高质量模式明确提示：非常消耗 token，建议仅限 Codex Pro 订阅用户使用。
-- [ ] 顺序省 token 多页模式没有作为发布能力出现；如果看到 `multi-page-sequential-token-saving` 或 `worker_mode=sequential`，应停止发布。
+- [ ] 多页多 Agent 高质量模式明确提示：页数越多，token 消耗越高。
+- [ ] README 和用户 prompt 不展示第三种多页转换模式。
 - [ ] Scope + Worker Gate 的用户提问使用普通语言，不要求用户理解 `app-native`、`worker_mode` 或 `Codex worker runtime`。
 - [ ] `deck_controller.py` 没有默认全页转换；初始化必须显式传 `--gates-file`，并传 `--all-slides` 或 `--slides`。
 - [ ] `single-page-token-saving` 模式下，controller 会拒绝 `--all-slides` 和多页 `--slides`。

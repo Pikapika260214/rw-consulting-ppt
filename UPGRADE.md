@@ -5,9 +5,7 @@
 v3 预览版仍然使用公开 skill 名称 `ppt-to-editable`，但能力从“单张 PNG / 单页截图转 editable”扩展为两个入口：
 
 - 单页省 token 模式：继续支持单张 PNG、截图、或 PPTX 的一页 sample。
-- 多页多 Agent 高质量模式：支持每页独立 worker 的高质量多页 image-only `.pptx` 转 editable deck，适合质量优先、能接受非常高 token 消耗的用户；建议仅限 Codex Pro 订阅用户使用。
-
-多页顺序省 token 模式已经下线。它更省 token，但质量不稳定，不作为发布能力提供。
+- 多页多 Agent 高质量模式：支持每页独立 worker 的高质量多页 image-only `.pptx` 转 editable deck，适合质量优先、能接受较高 token 消耗的用户。
 
 ## 升级前你需要知道
 
@@ -120,14 +118,14 @@ PPT to Editable v3 Two-Mode Preview
 我想使用多页多 Agent 高质量模式。
 ```
 
-注意：多页多 Agent 高质量模式非常消耗 token，建议仅限 Codex Pro 订阅用户使用。
+注意：多页多 Agent 高质量模式会按页启动独立转换任务，页数越多，token 消耗越高。
 
 v3 preview 会先问你：
 
 - 选择单页省 token 模式，还是多页多 Agent 高质量模式；
 - OCR 是否已经可用，是否需要首次 setup；
 - 转换全部页、指定页，还是先试一页；
-- 是否接受页数越多 token 越多；如果选择多 Agent 模式，还会说明它非常消耗 token、建议仅限 Codex Pro 订阅用户使用，并且每页会由独立转换任务读取页面内容。
+- 是否接受页数越多 token 越多；如果选择多 Agent 模式，还会说明每页会由独立转换任务读取页面内容。
 
 ## OCR Runtime Setup
 
@@ -178,7 +176,7 @@ ocr_runtime_status: "passed-text-usable"
 
 ### 3. 多页转换只有高质量多 Agent 模式
 
-多页多 Agent 高质量模式会把每页作为独立任务处理。页数越多 token 消耗越高，整体非常消耗 token，建议仅限 Codex Pro 订阅用户使用；但上下文污染更少，质量也更容易逐页检查。
+多页多 Agent 高质量模式会把每页作为独立任务处理。页数越多 token 消耗越高；但上下文污染更少，质量也更容易逐页检查。
 
 顺序省 token 模式已经下线。如果看到 `multi-page-sequential-token-saving` 或 `worker_mode: "sequential"`，应停止并改用单页模式或多页多 Agent 高质量模式。
 

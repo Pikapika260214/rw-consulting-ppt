@@ -814,13 +814,11 @@ def probe_deck(
                     "消耗：较低。\n"
                     "结果：输出一页可编辑 PPT。\n\n"
                     "2. 多页多 Agent 高质量模式\n"
-                    "适合：你想转换整份 PPTX、质量优先，并且你能接受非常高的 token 消耗。\n"
-                    "建议：仅限 Codex Pro 订阅用户使用。\n"
-                    "消耗：非常高；每页会交给独立转换任务处理。\n"
+                    "适合：你想转换整份 PPTX、质量优先，并且你能接受较高的 token 消耗。\n"
+                    "消耗：较高；每页会交给独立转换任务处理。\n"
                     "结果：输出完整可编辑 PPT；失败页会保留原图并加提示。\n\n"
                     "如果你更想省 token，建议先选单页省 token 模式。"
-                    "如果要转换整份 PPTX，则使用多页多 Agent 高质量模式；它非常消耗 token，"
-                    "建议仅限 Codex Pro 订阅用户使用。\n\n"
+                    "如果要转换整份 PPTX，则使用多页多 Agent 高质量模式；页数越多，token 消耗越高。\n\n"
                     "请告诉我你的选择。"
                 ),
                 "options": [
@@ -870,18 +868,16 @@ def probe_deck(
                     f"1. 转换全部 {slide_count} 页\n"
                     "2. 只转换指定页\n"
                     "3. 先转换 1 页看看效果\n\n"
-                    "说明：转换页数越多，消耗的 token 越多；多页多 Agent 高质量模式非常消耗 token，"
-                    "建议仅限 Codex Pro 订阅用户使用。"
+                    "说明：转换页数越多，消耗的 token 越多；多页多 Agent 高质量模式会为每页启动独立转换任务。"
                     "如果你选择多页多 Agent 高质量模式，我会把每一页交给独立转换任务处理；"
                     "这些任务会读取对应页面的图片和文字内容，token 消耗更高。\n\n"
                     "请告诉我你的选择。"
                 ),
                 "options": list(SCOPE_GATE_CHOICES),
                 "worker_modes": list(WORKER_MODE_CHOICES),
-                "pro_subscription_note": (
-                    "Multi-agent high-quality mode is better suited to Pro subscribers "
-                    "because it may start one independent worker per selected page and "
-                    "therefore consumes more tokens."
+                "token_cost_note": (
+                    "Multi-agent high-quality mode may start one independent worker per "
+                    "selected page and therefore consumes more tokens as page count grows."
                 ),
                 "recommendation": (
                     "Ask this plain-language question verbatim or translate it naturally. "

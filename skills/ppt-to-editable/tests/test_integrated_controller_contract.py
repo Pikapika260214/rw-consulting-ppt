@@ -273,9 +273,8 @@ class OcrRuntimeContractTests(unittest.TestCase):
         self.assertIn("先转换 1 页看看效果", scope_question)
         self.assertIn("消耗的 token 越多", scope_question)
         self.assertNotIn("同一个转换流程里逐页处理", scope_question)
-        self.assertIn("Pro 订阅用户", scope_question)
-        self.assertIn("仅限 Codex Pro", scope_question)
-        self.assertIn("非常消耗 token", scope_question)
+        self.assertNotIn("Pro 订阅用户", scope_question)
+        self.assertNotIn("仅限 Codex Pro", scope_question)
         self.assertIn("独立转换任务", scope_question)
         self.assertIn("读取对应页面的图片和文字内容", scope_question)
         for forbidden in (

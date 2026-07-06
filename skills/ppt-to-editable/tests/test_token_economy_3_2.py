@@ -104,7 +104,9 @@ class TokenEconomyManifestTests(unittest.TestCase):
         mode_gate = result["user_confirmation_required"]["conversion_mode_gate"]
         scope_gate = result["user_confirmation_required"]["scope_and_worker_gate"]
         self.assertIn("token", mode_gate["token_economy_note"])
-        self.assertIn("Pro", scope_gate["pro_subscription_note"])
+        self.assertIn("token", scope_gate["token_cost_note"])
+        self.assertNotIn("Pro", scope_gate["question"])
+        self.assertNotIn("Codex Pro", scope_gate["token_cost_note"])
         self.assertNotIn("app-native", mode_gate["question"])
         self.assertNotIn("worker_mode", scope_gate["question"])
 

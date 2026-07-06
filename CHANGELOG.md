@@ -5,8 +5,7 @@
 - `ppt-to-editable` 合并回 `rw-consulting-ppt` 仓库，仍作为 `skills/ppt-to-editable` 下的独立 skill 发布；不会覆盖 `skills/rw-consulting-ppt`。
 - README 和 `UPGRADE.md` 新增老用户单独升级 `ppt-to-editable` 的可复制 prompt。
 - 发布入口收敛为两种：单页省 token 模式、多页多 Agent 高质量模式。
-- 多页多 Agent 高质量模式的用户提示已强化：非常消耗 token，建议仅限 Codex Pro 订阅用户使用。
-- 多页顺序省 token 模式已下线：`multi-page-sequential-token-saving` 和 `worker_mode=sequential` 不再作为正式发布能力接受。
+- 多页多 Agent 高质量模式的用户提示已强化：页数越多，token 消耗越高。
 - 保留多页多 Agent 高质量模式：`conversion_mode_gate.user_choice = "multi-agent-high-quality"`，适合质量优先、能接受更高 token 消耗的用户。
 - 保留 `WORKER_COMPACT_PROTOCOL.md`：多页任务默认读取短协议、slide job manifest、page conversion contract、crop manifest contract，长 reference 只在卡住或 QA 失败时按需读取。
 - `deck_controller.py` 现在会为每个 run 复制本次专用 `WORKER_COMPACT_PROTOCOL.md`，并在 `deck_manifest.json` 记录 compact-first reference policy。
