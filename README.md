@@ -66,6 +66,51 @@ cp -R ./skills/rw-consulting-ppt/. ~/.codex/skills/rw-consulting-ppt/
 cp -R ./skills/ppt-to-editable/. ~/.codex/skills/ppt-to-editable/
 ```
 
+## 运行依赖
+
+安装 skill 文件不等于安装运行环境。`rw-consulting-ppt` 主要依赖 Codex 和图片生成能力；`ppt-to-editable` 还需要本地 Python 脚本链来完成 OCR、裁剪、PPTX 打包、可编辑性检查和渲染 QA。
+
+`ppt-to-editable` 建议环境：
+
+- Python 3.10+；
+- `python-pptx>=1.0.2`；
+- `Pillow>=10`；
+- `rapidocr_onnxruntime==1.4.4`；
+- `onnxruntime`；
+- `numpy<2`；
+- `shapely`；
+- `opencv-python-headless`；
+- `pyclipper`；
+- Windows PowerPoint，可选但强烈建议，用于导出预览图做视觉 QA。
+
+如果你是从仓库目录运行，可以安装根目录依赖：
+
+```powershell
+python --version
+python -m pip install -r requirements.txt
+```
+
+如果你只把 `ppt-to-editable` 这个 skill 文件夹复制到了 Codex skills 目录，可以安装 skill 内置依赖：
+
+```powershell
+python -m pip install -r "$env:USERPROFILE\.codex\skills\ppt-to-editable\requirements.txt"
+```
+
+macOS / Linux 对应为：
+
+```bash
+python --version
+python -m pip install -r ~/.codex/skills/ppt-to-editable/requirements.txt
+```
+
+OCR 还需要单独检查。第一次 OCR setup 可能会更慢，因为它可能需要安装依赖或下载 OCR 模型文件：
+
+```powershell
+python skills/ppt-to-editable/scripts/check_ocr_runtime.py --json --output-dir .ocr-check
+```
+
+如果 Python 依赖或 OCR 不可用，`ppt-to-editable` 应该先解释原因并询问是否 setup；不要临时手写 PowerShell PPTX builder 或简化版生成器来代替正式转换链路。
+
 如果你已经安装过旧版 `ppt-to-editable`，并且只想单独升级这个 skill，可以把下面这段 prompt 发给 Codex：
 
 ```text

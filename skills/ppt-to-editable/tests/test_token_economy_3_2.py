@@ -43,6 +43,15 @@ def valid_gates_for(source_pptx: Path, conversion_mode: str, worker_mode: str) -
             "user_choice": conversion_mode,
             "user_response_quote": "user selected token economy mode",
         },
+        "python_runtime_gate": {
+            "probe_python_status": "passed",
+            "setup_required": False,
+            "auto_passed_existing_runtime": True,
+            "explained_to_user": False,
+            "user_confirmed_dependency_install": False,
+            "user_accepted_diagnostic_only_run": False,
+            "user_response_quote": "",
+        },
         "ocr_runtime_gate": {
             "probe_ocr_runtime_status": "passed-text-usable",
             "setup_required": False,

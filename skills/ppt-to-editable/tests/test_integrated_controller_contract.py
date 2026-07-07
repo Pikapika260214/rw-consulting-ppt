@@ -155,6 +155,15 @@ def valid_gates_for(
             "user_choice": conversion_mode,
             "user_response_quote": "选择全量省力模式。" if conversion_mode == "full-deck-convenience" else "选择单页省 token 模式。",
         },
+        "python_runtime_gate": {
+            "probe_python_status": "passed",
+            "setup_required": False,
+            "auto_passed_existing_runtime": True,
+            "explained_to_user": False,
+            "user_confirmed_dependency_install": False,
+            "user_accepted_diagnostic_only_run": False,
+            "user_response_quote": "",
+        },
         "ocr_runtime_gate": {
             "probe_ocr_runtime_status": deck_controller.OCR_TEXT_USABLE_STATUS
             if auto_passed_existing_runtime
@@ -218,6 +227,7 @@ class OcrRuntimeContractTests(unittest.TestCase):
         make_image_only_pptx(source_pptx, slide_count=2)
 
         original_get_ocr_dependency_status = deck_controller.get_ocr_dependency_status
+        original_get_python_runtime_status = deck_controller.get_python_runtime_status
 
         def fake_ocr_status(*_args, **_kwargs):
             return {
@@ -227,10 +237,25 @@ class OcrRuntimeContractTests(unittest.TestCase):
                 "runtime": {},
             }
 
+        def fake_python_status():
+            return {
+                "status": "passed",
+                "python": "python",
+                "version": "3.12.0",
+                "requirements_file": str(Path("skills/ppt-to-editable/requirements.txt")),
+                "requirements_status": "available",
+                "install_command": "python -m pip install -r skills/ppt-to-editable/requirements.txt",
+                "checks": {"modules": {}, "scripts": {}},
+                "missing_modules": [],
+                "missing_scripts": [],
+            }
+
+        deck_controller.get_python_runtime_status = fake_python_status
         deck_controller.get_ocr_dependency_status = fake_ocr_status
         try:
             result = deck_controller.probe_deck(source_pptx)
         finally:
+            deck_controller.get_python_runtime_status = original_get_python_runtime_status
             deck_controller.get_ocr_dependency_status = original_get_ocr_dependency_status
 
         self.assertEqual(result["schema_version"], deck_controller.PROBE_SCHEMA_VERSION)
@@ -239,6 +264,14 @@ class OcrRuntimeContractTests(unittest.TestCase):
         self.assertEqual(result["gates_file_template"]["schema_version"], deck_controller.GATES_SCHEMA_VERSION)
         self.assertIn("conversion_mode_gate", result["gates_file_template"])
         self.assertIn("conversion_mode_gate", result["user_confirmation_required"])
+        self.assertIn("python_runtime_gate", result["gates_file_template"])
+        self.assertIn("python_runtime_gate", result["user_confirmation_required"])
+        self.assertEqual(result["python_runtime_status"], "passed")
+        python_gate = result["user_confirmation_required"]["python_runtime_gate"]
+        self.assertFalse(python_gate["requires_user_confirmation"])
+        self.assertIn("Python", python_gate["explain_to_user"])
+        self.assertIn("requirements.txt", python_gate["install_command"])
+        self.assertIn("do not write a temporary PowerShell PPTX builder", python_gate["no_temp_builder_policy"])
         self.assertIn("scope_and_worker_gate", result["gates_file_template"])
         self.assertIn("scope_and_worker_gate", result["user_confirmation_required"])
         self.assertNotIn("scope_gate", result["user_confirmation_required"])
@@ -287,6 +320,28 @@ class OcrRuntimeContractTests(unittest.TestCase):
         ):
             self.assertNotIn(forbidden, scope_question)
         self.assertFalse((run_dir / "source_slides").exists())
+
+    def test_load_and_validate_gates_rejects_missing_python_runtime_gate(self) -> None:
+        run_dir = fresh_dir("gates-rejects-missing-python-runtime-run")
+        source_pptx = run_dir / "source.pptx"
+        source_pptx.write_bytes(b"placeholder")
+        gates_file = run_dir / "gates.json"
+        gates = valid_gates_for(
+            source_pptx,
+            setup_required=False,
+            auto_passed_existing_runtime=True,
+        )
+        gates.pop("python_runtime_gate")
+        write_json(gates_file, gates)
+
+        with self.assertRaisesRegex(ValueError, "Python Runtime Gate"):
+            deck_controller.load_and_validate_gates(
+                gates_file,
+                source_pptx,
+                slides=None,
+                all_slides=True,
+                allow_ocr_not_ready=False,
+            )
 
     def test_conversion_mode_gate_rejects_retired_sequential_mode(self) -> None:
         run_dir = fresh_dir("gates-rejects-retired-sequential-run")
@@ -404,6 +459,15 @@ class OcrRuntimeContractTests(unittest.TestCase):
             "conversion_mode_gate": {
                 "user_choice": "full-deck-convenience",
                 "user_response_quote": "选择全量省力模式。",
+            },
+            "python_runtime_gate": {
+                "probe_python_status": "passed",
+                "setup_required": False,
+                "auto_passed_existing_runtime": True,
+                "explained_to_user": False,
+                "user_confirmed_dependency_install": False,
+                "user_accepted_diagnostic_only_run": False,
+                "user_response_quote": "",
             },
             "ocr_runtime_gate": {
                 "setup_required": False,

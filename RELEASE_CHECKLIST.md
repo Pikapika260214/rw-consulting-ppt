@@ -9,7 +9,10 @@
 - [ ] README 将 `ppt-to-editable` 定位为 `v3 Two-Mode Preview`，没有承诺 stable release。
 - [ ] `UPGRADE.md` 已说明旧版用户如何只更新 `ppt-to-editable`、验证、处理 OCR Runtime Setup。
 - [ ] README 和 `UPGRADE.md` 都包含老用户单独升级 `ppt-to-editable` 的可复制 prompt。
-- [ ] README 和 `SKILL.md` 已说明转换前预检流程：`--probe`、Conversion Mode Gate、OCR Runtime Gate、Scope + Worker Gate、`gates.json`。
+- [ ] README 和 `UPGRADE.md` 已清楚展示 `ppt-to-editable` 的 Python 运行依赖、安装命令、OCR setup 区别，以及可选 PowerPoint render QA 依赖。
+- [ ] README 和 `SKILL.md` 已说明转换前预检流程：Python Runtime Gate、`--probe`、Conversion Mode Gate、OCR Runtime Gate、Scope + Worker Gate、`gates.json`。
+- [ ] `deck_controller.py --probe` 会输出 `python_runtime_gate`，初始化会拒绝缺失或未通过的 Python Runtime Gate。
+- [ ] Python 依赖不可用时，Skill 要求先解释并询问 setup；不得用临时 PowerShell PPTX builder 或一轮性生成器替代正式转换链路。
 - [ ] Conversion Mode Gate 的用户提问使用普通语言说明“单页省 token 模式”和“多页多 Agent 高质量模式”，并保留单张 PNG / 单页 sample 的低 token 入口。
 - [ ] 多页多 Agent 高质量模式明确提示：页数越多，token 消耗越高。
 - [ ] README 和用户 prompt 不展示第三种多页转换模式。
@@ -25,7 +28,7 @@
 - [ ] `python -m py_compile` 或 AST 检查通过。
 - [ ] `deck_controller.py --probe`、缺失 `--gates-file`、`--all-slides` / `--slides` scope gate 已通过测试。
 - [ ] OCR setup/check 文档可读，首次 setup 的耗时和下载原因已经解释清楚。
-- [ ] `requirements.txt` 包含运行脚本所需依赖。
+- [ ] 根目录 `requirements.txt` 和 `skills/ppt-to-editable/requirements.txt` 均包含运行脚本所需依赖。
 - [ ] `examples/README.md` 明确说明本包不附带私有示例素材。
 - [ ] LICENSE 已确认。
 

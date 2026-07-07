@@ -30,7 +30,36 @@ For a multi-slide deck, do not run one mode over the whole deck by default. Use 
 
 Before a quality conversion run, complete the gate sequence and preserve the user's answers in a `gates.json` file. The controller enforces this file before it creates slide jobs.
 
-### Step 1: Probe
+### Step 1: Python Runtime Gate
+
+Before OCR or deck initialization, confirm the local Python script chain can run. The skill files do not install Python packages by themselves.
+
+Run a lightweight environment check:
+
+```text
+python --version
+python -m pip install -r requirements.txt
+```
+
+When running from a copied skill folder, use that folder's local dependency file:
+
+```text
+python -m pip install -r <Codex skills directory>/ppt-to-editable/requirements.txt
+```
+
+Then run the read-only probe in Step 2 and copy the probe's `python_runtime_gate` result into `gates.json`.
+
+If the probe reports Python runtime status is not `passed`, explain that Python runs the packaged conversion scripts for deck splitting, OCR, crops, PPTX packaging, and editability checks. Ask the user before installing dependencies, then rerun the probe. Do not continue by writing a temporary PowerShell PPTX builder, one-off replacement generator, or simplified manual builder as a quality conversion fallback.
+
+Record the ready state in `gates.json` under `python_runtime_gate`:
+
+- `probe_python_status: "passed"`;
+- `setup_required: false`;
+- `auto_passed_existing_runtime: true`.
+
+If setup is required, `gates.json` may record the user's consent to install dependencies, but do not initialize the conversion run until setup has completed and a fresh probe reports `probe_python_status: "passed"`.
+
+### Step 2: Probe
 
 Run the read-only probe first. It creates no run directory, extracts no source images, and installs nothing.
 
@@ -38,9 +67,9 @@ Run the read-only probe first. It creates no run directory, extracts no source i
 python scripts/deck_controller.py SOURCE.pptx --probe --ocr-python OCR_PYTHON --ocr-deps OCR_DEPS
 ```
 
-Use the probe output to explain OCR status, show slide count, and copy the included `gates_file_template` into `gates.json`.
+Use the probe output to explain Python runtime status, OCR status, show slide count, and copy the included `gates_file_template` into `gates.json`.
 
-### Step 2: Conversion Mode Gate
+### Step 3: Conversion Mode Gate
 
 Before asking about workers or page scope, give the user the two product modes:
 
@@ -76,7 +105,7 @@ If the user sends a single PNG and chooses single-page mode, continue with the s
 
 If the user sends a PPTX and chooses single-page mode, initialize exactly one slide with `--slides "N"` and `scope_and_worker_gate.user_choice: "sample"`. Do not run `--all-slides`.
 
-### Step 3: OCR Runtime Gate
+### Step 4: OCR Runtime Gate
 
 Before the first OCR-dependent run in a user environment, explain in plain language that OCR reads the source slide image and gives the conversion chain source text, text positions, line breaks, and Chinese text usability checks. OCR is needed for reliable text removal, editable text placement, and QA.
 
@@ -95,7 +124,7 @@ Require `ocr_runtime_status: "passed-text-usable"` for quality editable output. 
 
 If OCR is not `passed-text-usable`, stop before creating slide jobs unless the user explicitly accepts a diagnostic or fallback-only run. Only use `--user-accepted-ocr-limited-run` after `gates.json` records `ocr_runtime_gate.user_accepted_limited_run: true`.
 
-### Step 4: Scope + Worker Gate
+### Step 5: Scope + Worker Gate
 
 For `.pptx` inputs, apply the scope gate according to the selected conversion mode.
 
@@ -134,7 +163,7 @@ After the user answers, record the answer in `gates.json` under `scope_and_worke
 
 For normal in-app multi-agent execution, use `worker_mode: "app-native"` internally. Do not make the user say that term. If the user is unsure, recommend one sample page first before spending tokens on the full deck. Do not infer full-deck conversion from a generic request such as "convert this PPTX."
 
-Initialize only after conversion mode, OCR, and scope/worker gates are recorded:
+Initialize only after Python runtime, conversion mode, OCR, and scope/worker gates are recorded:
 
 ```text
 python scripts/deck_controller.py SOURCE.pptx --run-dir RUN_DIR --gates-file GATES.json --all-slides --ocr-python OCR_PYTHON --ocr-deps OCR_DEPS
@@ -206,17 +235,18 @@ Stop and revise the strategy before packaging if you write or see any of these r
 For image-only `.pptx` deck inputs:
 
 1. Run `scripts/deck_controller.py --probe`.
-2. Ask the Conversion Mode Gate. If the user chooses single-page mode, choose one sample slide and do not run `--all-slides`.
-3. If OCR is already `passed-text-usable`, record the auto-pass in `gates.json`; if not, ask the OCR Runtime Gate before setup or limited fallback.
-4. Apply the Scope + Worker Gate according to the selected mode and write `scope_and_worker_gate` into `gates.json`. In single-page mode, select exactly one sample slide. In multi-page multi-Agent mode, ask whether to convert all pages or selected pages. Do not start deck initialization or dispatch before the user chooses page scope and acknowledges token implications.
-5. If setup is needed and confirmed, run `scripts/setup_ocr_runtime.py --gates-file GATES.json --yes`, then run `scripts/check_ocr_runtime.py --json`.
-6. Run `scripts/deck_controller.py` on the source deck with `--gates-file` to validate image-only structure, extract unchanged per-slide source images, write `deck_manifest.json`, and create one `slide_job_manifest.json` plus `AGENT_TASK.md` per selected slide. If the run uses an external OCR runtime, pass `--ocr-python` and `--ocr-deps` during this initialization step. Do not initialize with system Python and expect per-slide workers to repair the deck-level OCR state later.
-7. Run `scripts/prepare_worker_dispatch.py RUN_DIR --worker-mode app-native|external-codex|manual`. If it blocks external worker use, do not launch `codex exec`.
-8. In `multi-agent-high-quality`, dispatch each slide job to a real separate per-slide worker. The controller/test thread must not build multiple slide outputs itself.
-9. Each slide task reads the generated `AGENT_TASK.md`, `slide_job_manifest.json`, `WORKER_COMPACT_PROTOCOL.md`, `page_conversion_contract.json`, and `crop_manifest_contract.json`, then processes exactly one source PNG using this skill's integrated v3.1 single-page scripts. Full `SKILL.md` and long references are fallback reading, not default reading.
-10. Each slide task runs the appropriate deterministic single-page chain, normally `run_reconstruction_qa.py` for reconstruction/mixed reconstruction, plus OCR, crop, editability, and PowerPoint render QA scripts as needed.
-11. Each slide task runs `scripts/write_slide_qa_summary_from_single_page.py` to convert the single-page QA output into the deck-controller `qa_summary.json` contract.
-12. The controller runs `scripts/deck_controller.py --finalize` to assemble accepted editable slide PPTXs and image-fallback pages with a top-right yellow sticker for failed pages. Finalize must reuse the existing `deck_manifest.json`; it must not rebuild deck preflight, recreate slide jobs, or overwrite the OCR runtime state recorded at dispatch.
+2. Check `python_runtime_gate`. If Python runtime is not `passed`, explain dependency setup, ask before installing requirements, rerun `--probe`, and stop until a fresh probe passes. Do not substitute a temporary PowerShell or one-off PPTX builder.
+3. Ask the Conversion Mode Gate. If the user chooses single-page mode, choose one sample slide and do not run `--all-slides`.
+4. If OCR is already `passed-text-usable`, record the auto-pass in `gates.json`; if not, ask the OCR Runtime Gate before setup or limited fallback.
+5. Apply the Scope + Worker Gate according to the selected mode and write `scope_and_worker_gate` into `gates.json`. In single-page mode, select exactly one sample slide. In multi-page multi-Agent mode, ask whether to convert all pages or selected pages. Do not start deck initialization or dispatch before the user chooses page scope and acknowledges token implications.
+6. If setup is needed and confirmed, run `scripts/setup_ocr_runtime.py --gates-file GATES.json --yes`, then run `scripts/check_ocr_runtime.py --json`.
+7. Run `scripts/deck_controller.py` on the source deck with `--gates-file` to validate image-only structure, extract unchanged per-slide source images, write `deck_manifest.json`, and create one `slide_job_manifest.json` plus `AGENT_TASK.md` per selected slide. If the run uses an external OCR runtime, pass `--ocr-python` and `--ocr-deps` during this initialization step. Do not initialize with system Python and expect per-slide workers to repair the deck-level OCR state later.
+8. Run `scripts/prepare_worker_dispatch.py RUN_DIR --worker-mode app-native|external-codex|manual`. If it blocks external worker use, do not launch `codex exec`.
+9. In `multi-agent-high-quality`, dispatch each slide job to a real separate per-slide worker. The controller/test thread must not build multiple slide outputs itself.
+10. Each slide task reads the generated `AGENT_TASK.md`, `slide_job_manifest.json`, `WORKER_COMPACT_PROTOCOL.md`, `page_conversion_contract.json`, and `crop_manifest_contract.json`, then processes exactly one source PNG using this skill's integrated v3.1 single-page scripts. Full `SKILL.md` and long references are fallback reading, not default reading.
+11. Each slide task runs the appropriate deterministic single-page chain, normally `run_reconstruction_qa.py` for reconstruction/mixed reconstruction, plus OCR, crop, editability, and PowerPoint render QA scripts as needed.
+12. Each slide task runs `scripts/write_slide_qa_summary_from_single_page.py` to convert the single-page QA output into the deck-controller `qa_summary.json` contract.
+13. The controller runs `scripts/deck_controller.py --finalize` to assemble accepted editable slide PPTXs and image-fallback pages with a top-right yellow sticker for failed pages. Finalize must reuse the existing `deck_manifest.json`; it must not rebuild deck preflight, recreate slide jobs, or overwrite the OCR runtime state recorded at dispatch.
 
 Controller command shape:
 

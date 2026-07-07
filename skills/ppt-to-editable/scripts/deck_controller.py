@@ -18,6 +18,7 @@ from __future__ import annotations
 import argparse
 import datetime as dt
 import hashlib
+import importlib.util
 import json
 import os
 import posixpath
@@ -71,6 +72,30 @@ RETIRED_CONVERSION_MODE_CHOICES = ("multi-page-sequential-token-saving",)
 SCOPE_GATE_CHOICES = ("all", "selected", "sample")
 WORKER_MODE_CHOICES = ("app-native", "external-codex", "manual")
 RETIRED_WORKER_MODE_CHOICES = ("sequential",)
+PYTHON_RUNTIME_PASSED_STATUS = "passed"
+PYTHON_RUNTIME_FAILED_STATUS = "failed"
+PYTHON_RUNTIME_REQUIRED_MODULES = {
+    "pptx": "python-pptx",
+    "PIL": "Pillow",
+    "rapidocr_onnxruntime": "rapidocr_onnxruntime",
+    "onnxruntime": "onnxruntime",
+    "numpy": "numpy",
+    "shapely": "shapely",
+    "cv2": "opencv-python-headless",
+    "pyclipper": "pyclipper",
+}
+PYTHON_RUNTIME_REQUIRED_SCRIPTS = (
+    "deck_controller.py",
+    "run_rapidocr.py",
+    "ocr_to_reconstruction_plan_scaffold.py",
+    "extract_source_crops.py",
+    "make_textless_crops.py",
+    "package_reconstruction_deck.py",
+    "package_clean_background_deck.py",
+    "inspect_pptx_editability.py",
+    "render_pptx_qa.py",
+    "write_slide_qa_summary_from_single_page.py",
+)
 
 REQUIRED_PROGRESS_STATUSES = [
     "started",
@@ -480,12 +505,80 @@ def require_ocr_text_usable(ocr_runtime_status: str, allow_ocr_not_ready: bool) 
     )
 
 
+def skill_requirements_path() -> Path:
+    skill_local = single_page_engine_root() / "requirements.txt"
+    if skill_local.exists():
+        return skill_local
+    repo_root = single_page_engine_root().parents[1]
+    return repo_root / "requirements.txt"
+
+
+def get_python_runtime_status() -> dict:
+    requirements_file = skill_requirements_path()
+    module_checks = {}
+    for module_name, package_name in PYTHON_RUNTIME_REQUIRED_MODULES.items():
+        spec = importlib.util.find_spec(module_name)
+        module_checks[module_name] = {
+            "package": package_name,
+            "status": "available" if spec is not None else "missing",
+            "origin": getattr(spec, "origin", None) if spec is not None else None,
+        }
+
+    scripts_dir = single_page_engine_root() / "scripts"
+    script_checks = {
+        script_name: {
+            "status": "available" if (scripts_dir / script_name).exists() else "missing",
+            "path": str(scripts_dir / script_name),
+        }
+        for script_name in PYTHON_RUNTIME_REQUIRED_SCRIPTS
+    }
+    requirements_status = "available" if requirements_file.exists() else "missing"
+    missing_modules = [
+        module_name
+        for module_name, check in module_checks.items()
+        if check["status"] != "available"
+    ]
+    missing_scripts = [
+        script_name
+        for script_name, check in script_checks.items()
+        if check["status"] != "available"
+    ]
+    status = (
+        PYTHON_RUNTIME_PASSED_STATUS
+        if requirements_status == "available" and not missing_modules and not missing_scripts
+        else PYTHON_RUNTIME_FAILED_STATUS
+    )
+    return {
+        "status": status,
+        "python": sys.executable,
+        "version": sys.version.split()[0],
+        "requirements_file": str(requirements_file),
+        "requirements_status": requirements_status,
+        "install_command": f'python -m pip install -r "{requirements_file}"',
+        "checks": {
+            "modules": module_checks,
+            "scripts": script_checks,
+        },
+        "missing_modules": missing_modules,
+        "missing_scripts": missing_scripts,
+    }
+
+
 def gates_file_template() -> dict:
     return {
         "schema_version": GATES_SCHEMA_VERSION,
         "source_pptx_sha256": "<copy source_pptx_sha256 from the --probe output>",
         "conversion_mode_gate": {
             "user_choice": "single-page-token-saving | multi-agent-high-quality",
+            "user_response_quote": "",
+        },
+        "python_runtime_gate": {
+            "probe_python_status": "passed | failed",
+            "setup_required": False,
+            "auto_passed_existing_runtime": False,
+            "explained_to_user": False,
+            "user_confirmed_dependency_install": False,
+            "user_accepted_diagnostic_only_run": False,
             "user_response_quote": "",
         },
         "ocr_runtime_gate": {
@@ -581,6 +674,40 @@ def load_and_validate_gates(
             )
 
     ocr_gate = gates.get("ocr_runtime_gate") or {}
+    python_gate = gates.get("python_runtime_gate")
+    if not isinstance(python_gate, dict):
+        raise ValueError(
+            "Python Runtime Gate violation: record python_runtime_gate from the --probe output "
+            "before initializing. If Python or requirements are missing, explain the dependency "
+            "setup and install requirements before rerunning --probe. Do not hand-write a "
+            "temporary PowerShell PPTX builder as a quality conversion fallback."
+        )
+    python_setup_required = python_gate.get("setup_required") is True
+    python_auto_passed = python_gate.get("auto_passed_existing_runtime") is True
+    probe_python_status = python_gate.get("probe_python_status")
+    if python_setup_required:
+        if python_gate.get("explained_to_user") is not True:
+            raise ValueError(
+                "Python Runtime Gate violation: python_runtime_gate.explained_to_user must be true "
+                "when dependency setup is required."
+            )
+        if not str(python_gate.get("user_response_quote") or "").strip():
+            raise ValueError(
+                "Python Runtime Gate violation: record the user's actual answer in "
+                "python_runtime_gate.user_response_quote when dependency setup is required."
+            )
+        raise ValueError(
+            "Python Runtime Gate violation: Python dependencies are not ready yet. Run the approved "
+            "dependency setup, rerun --probe, and initialize only after probe_python_status=passed. "
+            "Do not continue with a temporary PowerShell PPTX builder."
+        )
+    if not python_auto_passed and probe_python_status != PYTHON_RUNTIME_PASSED_STATUS:
+        raise ValueError(
+            "Python Runtime Gate violation: setup_required=false requires either "
+            "python_runtime_gate.auto_passed_existing_runtime=true or "
+            "python_runtime_gate.probe_python_status=passed."
+        )
+
     if not isinstance(ocr_gate, dict):
         raise ValueError("OCR Runtime Gate violation: ocr_runtime_gate must be an object.")
     setup_required = ocr_gate.get("setup_required") is True
@@ -787,6 +914,8 @@ def probe_deck(
             )
 
     all_image_only = all(s["is_single_full_slide_picture"] for s in slide_probes)
+    python_status = get_python_runtime_status()
+    python_ready = python_status.get("status") == PYTHON_RUNTIME_PASSED_STATUS
     ocr_status = get_ocr_dependency_status(ocr_python, ocr_deps)
     ocr_runtime_status = normalize_ocr_runtime_status(
         ocr_status.get("ocr_runtime_status"),
@@ -803,6 +932,8 @@ def probe_deck(
         "slide_indices": [s["slide_index"] for s in slide_probes],
         "all_slides_are_full_page_images": all_image_only,
         "slides": slide_probes,
+        "python_runtime_status": python_status["status"],
+        "python_runtime_report": python_status,
         "ocr_runtime_status": ocr_runtime_status,
         "ocr_runtime_report": ocr_status,
         "user_confirmation_required": {
@@ -835,6 +966,35 @@ def probe_deck(
                     "Use single-page-token-saving for one PNG or one sample slide. "
                     "Use multi-agent-high-quality when the user chooses full-deck PPTX conversion "
                     "with independent per-slide workers."
+                ),
+            },
+            "python_runtime_gate": {
+                "requires_user_confirmation": not python_ready,
+                "needs_setup": not python_ready,
+                "auto_pass_existing_runtime": python_ready,
+                "explain_to_user": (
+                    "Python runs the packaged ppt-to-editable scripts that split decks, run OCR, "
+                    "make crops, package PPTX files, and inspect editability. Installing the skill "
+                    "files alone does not install these Python packages."
+                ),
+                "why_setup_takes_time": (
+                    None
+                    if python_ready
+                    else (
+                        "Python or required packages are missing. Setup may take a few minutes "
+                        "because packages from requirements.txt need to be installed before the "
+                        "quality conversion chain can run."
+                    )
+                ),
+                "install_command": python_status["install_command"],
+                "check_commands": [
+                    "python --version",
+                    python_status["install_command"],
+                ],
+                "no_temp_builder_policy": (
+                    "If Python dependencies are unavailable, stop and ask before setup; do not "
+                    "write a temporary PowerShell PPTX builder or one-off replacement generator "
+                    "as a quality conversion fallback."
                 ),
             },
             "ocr_runtime_gate": {
@@ -893,6 +1053,7 @@ def probe_deck(
             },
         },
         "next_steps": [
+            "If Python runtime status is not passed, explain Python dependencies, ask before installing requirements, rerun --probe, and do not use temporary PowerShell PPTX builders as quality output.",
             "If OCR is not passed-text-usable, ask the OCR Runtime Gate before setup or limited fallback. If OCR is already passed-text-usable, record auto_passed_existing_runtime=true.",
             "Ask the plain-language page-scope question from user_confirmation_required before creating slide jobs; do not expose internal worker_mode field names to the user.",
             "Write the user's answers into a gates file using gates_file_template.",

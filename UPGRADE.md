@@ -12,8 +12,39 @@ v3 预览版仍然使用公开 skill 名称 `ppt-to-editable`，但能力从“�
 - 这个 GitHub 仓库同时包含 `rw-consulting-ppt` 和 `ppt-to-editable` 两个独立 skill；如果你只想升级可编辑转换能力，只需要更新 `skills/ppt-to-editable`。
 - 仓库名是 `rw-consulting-ppt`，但实际安装后的可编辑转换 skill 文件夹仍应叫 `ppt-to-editable`。
 - 旧版主要面向单页 PNG；v3 preview 包含 deck controller、OCR Runtime Gate、Conversion Mode Gate、多页 worker 派发流程，以及高风险视觉区域的 crop-first 硬约束。
+- 安装 / 更新 skill 文件不等于安装 Python 运行依赖。`ppt-to-editable` 需要 Python 3.10+ 和 `requirements.txt` 里的包来运行 OCR、裁剪、PPTX 打包、可编辑性检查和渲染 QA。
 - 第一次 OCR setup 可能更慢，因为它可能需要安装依赖或下载 OCR 模型。
 - 如果某一页转换失败，最终 deck 仍会生成；失败页会保留原 PNG，并在右上角加黄色贴纸“可编辑转换失败”。
+
+## Python 运行依赖
+
+`ppt-to-editable` 需要：
+
+- Python 3.10+；
+- `python-pptx>=1.0.2`；
+- `Pillow>=10`；
+- `rapidocr_onnxruntime==1.4.4`；
+- `onnxruntime`；
+- `numpy<2`；
+- `shapely`；
+- `opencv-python-headless`；
+- `pyclipper`；
+- Windows PowerPoint，可选但建议用于渲染 QA。
+
+从仓库目录运行：
+
+```powershell
+python --version
+python -m pip install -r requirements.txt
+```
+
+如果只复制了独立 skill 文件夹：
+
+```powershell
+python -m pip install -r "$env:USERPROFILE\.codex\skills\ppt-to-editable\requirements.txt"
+```
+
+如果 Python 依赖没有准备好，转换前应该先停下来解释并询问是否 setup；不要临时手写 PowerShell PPTX builder 或简化版生成器来替代正式脚本链。
 
 ## 一段 prompt 完成升级
 

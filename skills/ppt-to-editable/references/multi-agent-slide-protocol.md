@@ -270,7 +270,7 @@ python scripts/deck_controller.py SOURCE.pptx --run-dir RUN_DIR --gates-file GAT
 python scripts/prepare_worker_dispatch.py RUN_DIR --worker-mode app-native
 ```
 
-The first command is read-only. The second command is allowed only after `gates.json` records the Conversion Mode Gate, OCR Runtime Gate state, and the combined Scope + Worker Gate answer. The dispatch report must pass before workers start.
+The first command is read-only. The second command is allowed only after `gates.json` records the Python Runtime Gate, Conversion Mode Gate, OCR Runtime Gate state, and the combined Scope + Worker Gate answer. The dispatch report must pass before workers start. If Python dependencies are not ready, stop for dependency setup; do not replace the packaged script chain with a temporary PowerShell or one-off PPTX builder.
 
 Do not start per-slide workers if `deck_manifest.json` records `ocr_runtime_status` other than `passed-text-usable`, unless the user explicitly asked for a fallback-only diagnostic run. Per-slide workers can prove their own OCR succeeded, but deck-level finalize still uses the dispatch-time OCR state as a quality gate.
 
