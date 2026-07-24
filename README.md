@@ -544,3 +544,11 @@ rw-consulting-ppt/
 <p>
   <img src="skills/rw-consulting-ppt/assets/wechat-group-qr.jpg" alt="AI X Consulting 讨论群二维码" width="320">
 </p>
+
+## 联系作者
+
+如有企业级 PPT 视觉设计、AI 战略咨询或其他相关合作需求，欢迎通过小红书联系作者。
+
+<p>
+  <img src="skills/rw-consulting-ppt/assets/xiaohongshu-contact.jpg" alt="作者小红书主页二维码" width="360">
+</p>
