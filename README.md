@@ -3,9 +3,9 @@
 这个仓库包含两个互相独立的 Codex Skills：
 
 - `rw-consulting-ppt`：把行业报告、会议纪要、访谈笔记和半成品 bullet，转成 `proof-object-first` 的图片版咨询 PPT。
-- `ppt-to-editable`：把单张 slide 图片、PNG/JPG、截图，或 image-only PPTX 转换成更可编辑的 PowerPoint。
+- `astralow-for-editable-ppt`：把单张 slide 图片、PNG、截图，或图片型 PPT 的页面 转换成更可编辑的 PowerPoint。
 
-两者平级放在 `skills/` 目录下，需要分别安装、分别触发，互不覆盖。`rw-consulting-ppt` 默认交付 PNG + `image-only PPTX`；如果需要后续编辑，可以再用 `ppt-to-editable` 转换单页，或用多页多 Agent 高质量模式转换整份 image-only PPTX。
+两者平级放在 `skills/` 目录下，需要分别安装、分别触发，互不覆盖。`rw-consulting-ppt` 默认交付 PNG + `image-only PPTX`；如果需要后续编辑，可以再用 `astralow-for-editable-ppt` 逐页转换；多页结果另行合并并检查。
 
 ![RW Consulting PPT 工作流](skills/rw-consulting-ppt/assets/readme-hero.png)
 
@@ -54,74 +54,41 @@ RW Consulting PPT Skill 的重点不是“美化 PPT”，而是把粗糙材料�
 # Windows PowerShell
 New-Item -ItemType Directory -Force "$env:USERPROFILE\.codex\skills" | Out-Null
 New-Item -ItemType Directory -Force "$env:USERPROFILE\.codex\skills\rw-consulting-ppt" | Out-Null
-New-Item -ItemType Directory -Force "$env:USERPROFILE\.codex\skills\ppt-to-editable" | Out-Null
+New-Item -ItemType Directory -Force "$env:USERPROFILE\.codex\skills\astralow-for-editable-ppt" | Out-Null
 Copy-Item -Recurse -Force .\skills\rw-consulting-ppt\* "$env:USERPROFILE\.codex\skills\rw-consulting-ppt"
-Copy-Item -Recurse -Force .\skills\ppt-to-editable\* "$env:USERPROFILE\.codex\skills\ppt-to-editable"
+Copy-Item -Recurse -Force .\skills\astralow-for-editable-ppt\* "$env:USERPROFILE\.codex\skills\astralow-for-editable-ppt"
 ```
 
 ```bash
 # macOS / Linux
-mkdir -p ~/.codex/skills/rw-consulting-ppt ~/.codex/skills/ppt-to-editable
+mkdir -p ~/.codex/skills/rw-consulting-ppt ~/.codex/skills/astralow-for-editable-ppt
 cp -R ./skills/rw-consulting-ppt/. ~/.codex/skills/rw-consulting-ppt/
-cp -R ./skills/ppt-to-editable/. ~/.codex/skills/ppt-to-editable/
+cp -R ./skills/astralow-for-editable-ppt/. ~/.codex/skills/astralow-for-editable-ppt/
 ```
 
 ## 运行依赖
 
-安装 skill 文件不等于安装运行环境。`rw-consulting-ppt` 主要依赖 Codex 和图片生成能力；`ppt-to-editable` 还需要本地 Python 脚本链来完成 OCR、裁剪、PPTX 打包、可编辑性检查和渲染 QA。
+新版转换 Skill 需要 Python 3.10+、python-pptx 和 Pillow。在仓库根目录运行：
 
-`ppt-to-editable` 建议环境：
-
-- Python 3.10+；
-- `python-pptx>=1.0.2`；
-- `Pillow>=10`；
-- `rapidocr_onnxruntime==1.4.4`；
-- `onnxruntime`；
-- `numpy<2`；
-- `shapely`；
-- `opencv-python-headless`；
-- `pyclipper`；
-- Windows PowerPoint，可选但强烈建议，用于导出预览图做视觉 QA。
-
-如果你是从仓库目录运行，可以安装根目录依赖：
-
-```powershell
-python --version
-python -m pip install -r requirements.txt
+```sh
+python -m pip install -r skills/astralow-for-editable-ppt/requirements.txt
 ```
 
-如果你只把 `ppt-to-editable` 这个 skill 文件夹复制到了 Codex skills 目录，可以安装 skill 内置依赖：
+只复制了 Skill 文件夹时，请使用安装目录内的 requirements.txt。实际渲染与编辑验证需要 Windows 桌面 PowerPoint；其他环境可构建 PPTX，但不能标为 Office 验证通过。模型需由用户选择 Astra low，Skill 不会自动切换模型。
 
-```powershell
-python -m pip install -r "$env:USERPROFILE\.codex\skills\ppt-to-editable\requirements.txt"
-```
+## 旧版用户升级
 
-macOS / Linux 对应为：
-
-```bash
-python --version
-python -m pip install -r ~/.codex/skills/ppt-to-editable/requirements.txt
-```
-
-OCR 还需要单独检查。第一次 OCR setup 可能会更慢，因为它可能需要安装依赖或下载 OCR 模型文件：
-
-```powershell
-python skills/ppt-to-editable/scripts/check_ocr_runtime.py --json --output-dir .ocr-check
-```
-
-如果 Python 依赖或 OCR 不可用，`ppt-to-editable` 应该先解释原因并询问是否 setup；不要临时手写 PowerShell PPTX builder 或简化版生成器来代替正式转换链路。
-
-如果你已经安装过旧版 `ppt-to-editable`，并且只想单独升级这个 skill，可以把下面这段 prompt 发给 Codex：
+将下面这段指令复制给 Codex：
 
 ```text
-请从这个 GitHub 仓库只安装 / 更新 ppt-to-editable skill：
-https://github.com/Pikapika260214/rw-consulting-ppt
-
-请只使用仓库里的 skills/ppt-to-editable 目录。
-不要覆盖或重新安装 rw-consulting-ppt。
-请把它安装到我的 Codex skills 目录里的 ppt-to-editable 文件夹，并保持 skill 名称仍然是 ppt-to-editable。
-安装后请帮我检查 SKILL.md，确认这是 v3 Two-Mode Preview，并告诉我是否更新成功。
+请将我已安装的 ppt-to-editable 升级为新版 astralow-for-editable-ppt。
+从 https://github.com/Pikapika260214/rw-consulting-ppt 的 skills/astralow-for-editable-ppt 目录安装。
+先将旧 ppt-to-editable 备份到 Skill 搜索目录之外，再安装新版及缺失依赖。
+如果已安装新版，请更新，避免重复安装。保留历史 PPT 和输出文件，不要覆盖 rw-consulting-ppt。
+完成后检查新版名称、文件和依赖是否可用。
 ```
+
+升级后使用 `$astralow-for-editable-ppt` 调用；若当前会话未识别新版，请新开任务。更多信息见 [升级说明](UPGRADE.md)。
 
 然后在 Codex 里这样触发：
 
@@ -137,24 +104,11 @@ https://github.com/Pikapika260214/rw-consulting-ppt
 输出格式：PNG + image-only PPTX
 ```
 
-转换单张图片或 image-only PPTX 为 editable PPTX：
+转换单页图片为可编辑 PPTX：
 
 ```text
-请使用 ppt-to-editable，把这张单页 slide 图片转换成更可编辑的 PowerPoint。
-我想使用单页省 token 模式。
-
-输入：我上传的 PNG / JPG / 截图图片
-目标：尽量恢复可编辑文字和简单原生形状，同时保持原图版式
-路线：先 OCR 和 OCR review，再判断 clean-background、hybrid 或 reconstruction
-约束：不要做可见文字覆盖；不要额外添加 PowerPoint 阴影、发光、浮雕、反射等效果
-交付：editable PPTX + editability_report.json
-```
-
-如果要转换整份 image-only PPTX：
-
-```text
-请使用 ppt-to-editable，把这份 image-only PPTX 转成更可编辑的 PowerPoint deck。
-我想使用多页多 Agent 高质量模式。
+使用 $astralow-for-editable-ppt 将这张图转成可编辑 PPT。
+保留原文、布局和视觉关系，输出 PPTX 与实际渲染预览，说明哪些局部仍是图片。
 ```
 
 ## 适合什么场景？
@@ -195,7 +149,7 @@ https://github.com/Pikapika260214/rw-consulting-ppt
 - 先生成 1-2 页样页，让你确认风格、密度和表达逻辑；
 - 在样页通过后，再批量生成完整 deck；
 - 如果需要 PPTX，则把每张 PNG 打包成 `image-only PPTX`；
-- 如果少数关键页面需要后续编辑，可再用 `ppt-to-editable` 逐页转换成单页 editable PPTX。
+- 如果少数关键页面需要后续编辑，可再用 `astralow-for-editable-ppt` 逐页转换成单页 editable PPTX。
 
 `rw-consulting-ppt` 本身不会直接做：
 
@@ -204,33 +158,15 @@ https://github.com/Pikapika260214/rw-consulting-ppt
 - Python / Pillow / SVG / canvas 绘制的伪 PPT；
 - 普通模板套壳或三栏卡片堆叠。
 
-如果你已经有成品 slide 图片或 image-only PPTX，并希望恢复部分编辑能力，可以使用同仓库的 `ppt-to-editable`。两个 skill 的分工是：`rw-consulting-ppt` 先把复杂业务材料变成咨询级图片页；`ppt-to-editable` 再把单页图片或整份 image-only PPTX 转成更可编辑的 PowerPoint。
+如果你已经有成品 slide 图片或 image-only PPTX，并希望恢复部分编辑能力，可以使用同仓库的 `astralow-for-editable-ppt`。两个 skill 的分工是：`rw-consulting-ppt` 先把复杂业务材料变成咨询级图片页；`astralow-for-editable-ppt` 再逐页恢复编辑能力，多页另行合并。
 
-## 同仓库的另一个 Skill：ppt-to-editable
+## 新版更新：更轻量的图片转可编辑 PPT
 
-`ppt-to-editable` 当前是 v3 Two-Mode Preview，支持两种入口：
+新版针对 Astra low 简化了转换流程，提供绘图、渲染和检查工具。在一次单页测试中，转换从旧方案的十几分钟缩短到约 3 分钟，用时约为原来的五分之一；相比 Astra low 裸跑，耗时和按 Standard 费率估算的 credits 都减少约 10%。
 
-- 单页省 token 模式：适合单张 PNG、JPG、截图，或只想先测试 PPTX 的其中一页。
-- 多页多 Agent 高质量模式：适合整份 image-only `.pptx` 转 editable deck，质量优先，token 消耗较高。
+[查看新版 Skill](skills/astralow-for-editable-ppt/SKILL.md) · [下载仓库 ZIP](https://github.com/Pikapika260214/rw-consulting-ppt/archive/refs/heads/main.zip)
 
-核心能力包括：
-
-- OCR 辅助文字恢复；
-- `clean-background + editable text`；
-- 对结构简单的页面，可使用 `hybrid / reconstruction` 重建部分原生对象；
-- 对复杂图标、照片、曲线路径、渐变箭头等高风险视觉，优先使用紧裁剪 crop 或 textless crop，不强行原生重画；
-- 多页 image-only PPTX 可按页拆分，交给独立 worker 处理，再组装成 final deck；
-- 输出 `editability_report.json`，用于验证文字框、原生形状、图片裁剪等结构；
-- 默认不额外添加 PowerPoint 阴影、发光、浮雕、反射等效果，除非原图明确需要复刻。
-
-它不是从材料生成 deck 的工具，也不承诺任意图片都能全对象原生重建。实际可编辑范围以 `editability_report.json` 和最终 PPTX 为准。
-
-以下能力目前不作为公开稳定能力承诺：
-
-- PDF 多页自动拆页输入；
-- 非 image-only 的复杂原生 PPTX 自动结构迁移；
-- 低 token 的整份 PPTX 顺序批处理；
-- 任意页面的 fully native all-object reconstruction。
+文字、数字和主要结构尽量原生可编辑，复杂视觉可保留局部裁图。基础工具逐页处理，没有旧版多页 controller；多页需另行合并并检查。
 
 ## 工作流
 
@@ -296,9 +232,7 @@ https://github.com/Pikapika260214/rw-consulting-ppt
 
 ### 7. Selective editable conversion
 
-如果某些页面需要后续频繁改字、改数字、改标签、改表格，可以从最终 PNG 中选取少数关键页面，交给 `ppt-to-editable` 用单页省 token 模式转换。
-
-如果需要把整份 image-only PPTX 转成更可编辑的 deck，可以选择多页多 Agent 高质量模式。这个模式会按页拆分、独立转换、再组装 final deck，质量更稳，但 token 消耗较高。
+如果某些页面需要改字、改数字或标签，可将最终 PNG 交给 `astralow-for-editable-ppt` 逐页转换。多页结果需另行合并并检查。
 
 ## 输出物
 
@@ -316,35 +250,7 @@ run_notes.md
 
 默认的 `deck-name-image-only.pptx` 里，每一页只有一张完整图片，不包含可编辑文本对象。
 
-如果启用了关键页可编辑化，还会额外交付类似：
-
-```text
-editable-pages/
-  slide_02-editable.pptx
-  slide_02-editability_report.json
-  slide_02-preview.png
-```
-
-这些 editable PPTX 只覆盖被选中的单页图片。实际可编辑范围以对应的 `editability_report.json` 为准。
-
-如果使用 `ppt-to-editable` 的多页多 Agent 高质量模式，输出通常包含：
-
-```text
-runs/my-deck/
-  source_slides/
-    slide_01.png
-    slide_02.png
-    ...
-  slide_jobs/
-    slide_01/
-    slide_02/
-    ...
-  output/
-    final-deck.pptx
-    deck-level-qa-report.json
-```
-
-多页输出是一份整合后的 editable deck；每页的可编辑范围可能不同，仍以对应页面的 editability report 和 deck-level QA report 为准。
+如果启用了关键页可编辑化，每页还会交付 editable PPTX、实际渲染预览和简短报告。实际可编辑范围以最终文件及局部图片说明为准。
 
 ## 质量护栏
 
@@ -442,43 +348,12 @@ runs/my-deck/
 不要直接生成图片，先给我 deck blueprint。
 ```
 
-### 单页省 token 模式
+### 图片转可编辑 PPT
 
 ```text
-请使用 ppt-to-editable，把我上传的这张单页 slide 图片转换成更可编辑的 PowerPoint。
-我想使用单页省 token 模式。
-
-当前输入：单张 PNG / JPG / 截图图片
-优先目标：让标题、正文、标签、数字等主要文字可编辑
-版式目标：尽量贴近原图，不要把原图文字留在背景下再叠一层可编辑文字
-处理路线：请先 OCR，保存 OCR 结果和 review；如果页面结构由卡片、表格、行列、流程、图标容器或简单线条组成，优先考虑 hybrid / reconstruction；复杂图片、照片、纹理或细节图标可以保留为紧裁剪图片
-样式约束：默认使用扁平 PowerPoint 对象，不要额外添加阴影、发光、浮雕、反射、柔边或主题效果，除非原图明确有这个效果
-交付物：单页 editable PPTX、预览图、editability_report.json，并说明哪些元素可编辑、哪些元素仍是图片裁剪
-```
-
-### 多页多 Agent 高质量模式
-
-```text
-请使用 ppt-to-editable，把这份 image-only PPTX 转成更可编辑的 PowerPoint deck。
-我想使用多页多 Agent 高质量模式。
-请先做 OCR / 页面范围 / token 消耗确认，不要在我确认前直接转换全部页面。
-```
-
-### 结构化页面优先 reconstruction
-
-```text
-请使用 ppt-to-editable，把这张结构化业务 slide 图片转换成单页 editable PPTX。
-
-这页主要由表格、卡片、分隔线、标签和数字组成，请优先走 hybrid / reconstruction，而不是只做 clean-background + editable text。
-
-要求：
-- 文字尽量变成可编辑文本框；
-- 表格或明显行列结构尽量重建为原生 PowerPoint table；
-- 简单矩形、圆形、线条、分隔线尽量重建为原生 PowerPoint shape / line；
-- 图标、照片、复杂纹理可以用紧裁剪图片保留；
-- 不要使用整页背景伪装 reconstruction；
-- 不要添加原图没有的阴影或 PowerPoint 特效；
-- 输出 editability_report.json 证明 editable text、native shapes、native tables、source crops 的数量和限制。
+使用 $astralow-for-editable-ppt 将这张完整页面图片转成可编辑 PPT。
+保留文字、布局和视觉关系，主要文字、数字与结构使用原生对象。
+输出 PPTX 和实际渲染预览，并说明哪些元素仍是局部图片。
 ```
 
 ## 目录结构
@@ -495,35 +370,23 @@ rw-consulting-ppt/
       examples/
       references/
       scripts/
-    ppt-to-editable/
+    astralow-for-editable-ppt/
       SKILL.md
       agents/
       references/
       scripts/
-      tests/
+      requirements.txt
 ```
 
 ## FAQ
 
 ### 为什么默认不是 editable PPTX？
 
-因为 `rw-consulting-ppt` 的核心不是从材料直接生成原生 PPT 组件，而是让 AI 先生成完整的咨询页图像。它优先保证咨询页的视觉完整度、信息密度和表达质量。
-
-如果你已经有一张成品图片，并希望恢复部分编辑能力，可以使用同仓库的 `ppt-to-editable` 单页省 token 模式。
-
-如果你已经有一份 image-only PPTX，并希望整份 deck 尽量可编辑，可以使用 `ppt-to-editable` 多页多 Agent 高质量模式。这个模式质量优先，token 消耗较高。
-
-无论哪种模式，`ppt-to-editable` 都不承诺任意页面的全对象原生重建。复杂视觉会优先保留为紧裁剪图片或 textless crop，主要文字尽量恢复为可编辑文本。
+`rw-consulting-ppt` 先生成完整咨询页图像，默认 PPTX 的每页是一张图片。需要后续编辑时，再用 `astralow-for-editable-ppt` 转换选中的页面。
 
 ### 生成的 PPTX 还能修改吗？
 
-分两种情况：
-
-- `rw-consulting-ppt` 默认生成的是 `image-only PPTX`：每页是一张完整图片，可以整体移动、替换、插入，但不能逐字编辑文本。
-- 如果你把某些关键页面再交给 `ppt-to-editable` 单页模式转换，那么这些页面会变成单页 editable PPTX；其中被恢复为 PowerPoint 文本框、原生形状、原生表格的部分可以修改，仍作为图片裁剪保留的复杂视觉元素不能逐对象编辑。
-- 如果你把整份 image-only PPTX 交给 `ppt-to-editable` 多页多 Agent 高质量模式，它会生成一份 final deck；不同页面的可编辑范围可能不同。
-
-实际可编辑范围以 `editability_report.json` 为准。需要改大段内容时，通常仍建议回到 slide brief 或 prompt 层重生成；需要小范围改字、改数字、改标签时，适合使用 `ppt-to-editable`。
+图片版 PPTX 可整体移动或替换页面图片。转换后，原生文本框、形状等可以编辑，局部裁图内部仍不可逐对象编辑。需要大幅修改内容时，建议回到 brief 或 prompt 重新生成。
 
 ### 为什么一定要先确认样页？
 

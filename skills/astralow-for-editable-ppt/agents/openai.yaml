@@ -1,0 +1,4 @@
+interface:
+  display_name: "Astralow-for-editable-ppt"
+  short_description: "为 Astra low 提供轻量可编辑 PPT 重建、渲染与质量检查工具"
+  default_prompt: "使用 $astralow-for-editable-ppt 将这张图转成可编辑 PPT，保留原文和布局，输出 PPTX 与实际渲染预览。"

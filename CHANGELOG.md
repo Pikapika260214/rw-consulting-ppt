@@ -1,3 +1,8 @@
+# 新版可编辑 PPT Skill
+
+- 用已测试的 `astralow-for-editable-ppt` 替换旧 `ppt-to-editable`。
+- 更新安装路径、升级指令、调用示例和依赖；其他 Skill 与展示素材保持不变。
+
 # Changelog
 
 ## v3 Two-Mode Preview

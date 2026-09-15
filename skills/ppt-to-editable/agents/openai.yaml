@@ -1,8 +1,0 @@
-interface:
-  display_name: "PPT to Editable"
-  short_description: "将图片型 PPT/PNG 转成更可编辑的 PowerPoint"
-  brand_color: "#0B6B4B"
-  default_prompt: "Use $ppt-to-editable to convert this image-only PPTX or slide image into an editable PowerPoint deck."
-
-policy:
-  allow_implicit_invocation: true
