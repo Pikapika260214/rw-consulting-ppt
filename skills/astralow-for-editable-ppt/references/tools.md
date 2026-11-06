@@ -4,13 +4,28 @@
 
 ```python
 from editable_ppt import Deck
+from pptx.dml.color import RGBColor
+from pptx.enum.text import MSO_ANCHOR, MSO_AUTO_SIZE, PP_ALIGN
+from pptx.util import Inches, Pt
+
 deck = Deck("input.png", "output")
-deck.rect(20, 20, 400, 100, fill="#F4F6F8", line="#777777")
-deck.text(30, 30, 380, 80, "示例文字", size_px=28,
-          font="Microsoft YaHei", container_bbox=(20, 20, 400, 100))
+label = deck.rect(20, 20, 180, 46, fill="#F4F6F8", line="#777777", radius=True)
+label.text = "示例标签"
+frame = label.text_frame
+frame.auto_size = MSO_AUTO_SIZE.NONE
+frame.margin_left = frame.margin_right = Inches(12 / 96)
+frame.margin_top = frame.margin_bottom = Inches(4 / 96)
+frame.vertical_anchor = MSO_ANCHOR.MIDDLE
+paragraph = frame.paragraphs[0]
+paragraph.alignment = PP_ALIGN.CENTER
+paragraph.font.name = "Microsoft YaHei"
+paragraph.font.size = Pt(18)
+paragraph.font.color.rgb = RGBColor.from_string("263449")
 result = deck.finish()
-# 将 result["preview"] 交给当前环境的图片查看工具；先检查渲染状态。
+# 先检查渲染状态，再打开 result["preview"]。
 ```
+
+用形状的 `text_frame` 设置属于底形的文字。独立文字使用 `Deck.text()`。
 
 几何与字号单位均为源图像素，映射为 96 px/in；这是内部换算约定，不是源图真实 DPI 判断。示例坐标与字体只示范调用方式。若需要特定物理页面尺寸，保持几何、字号同比例换算，或采用原生 API 构建。
 
